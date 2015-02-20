@@ -36,9 +36,9 @@ namespace Meadows.Stacktrace {
 
         public bool hide_installed_libraries { get;set;default = false;}
 
-        public Color highlight_color { get;set;default = Color.WHITE;}
+        //public Color highlight_color { get;set;default = Color.WHITE;}
 
-        public Color error_background { get;set;default = Color.RED;}
+        //public Color error_background { get;set;default = Color.RED;}
 
         private Stacktrace stacktrace ;
 
@@ -48,7 +48,7 @@ namespace Meadows.Stacktrace {
         }
 
         private string get_reset_style () {
-            return get_color_code (Style.DIM, highlight_color, background_color);
+            return get_color_code (Style.DIM, stacktrace.highlight_color, background_color);
         }
 
         private string get_color_code (Style attr, Color fg, Color bg = background_color) {
@@ -64,7 +64,7 @@ namespace Meadows.Stacktrace {
         }
 
         private string get_highlight_code () {
-            return get_color_code (Style.BRIGHT, highlight_color);
+            return get_color_code (Style.BRIGHT, stacktrace.highlight_color);
         }
 
         private string get_printable_function (Frame frame, int padding = 0) {
@@ -118,7 +118,7 @@ namespace Meadows.Stacktrace {
         int title_length = 0;
 
         private string get_printable_title () {
-            var c = get_color_code (Style.DIM, highlight_color, background_color);
+            var c = get_color_code (Style.DIM, stacktrace.highlight_color, background_color);
             var color = get_highlight_code ();
 
             var result = "" ;
@@ -158,9 +158,15 @@ namespace Meadows.Stacktrace {
             return "Unknown reason";
         }
 
+        /**
+         * Print the stacktrace to stdout
+         *
+         * @param trace the stacktrace 
+         * 
+         */
         public void print (Stacktrace trace) {
             this.stacktrace = trace ;
-            background_color = error_background;
+            background_color = stacktrace.error_background;
             var header = "%s%s\n".printf (get_printable_title (),
                                           get_reset_code ());
             var first_vala = trace.first_vala ;
@@ -218,7 +224,7 @@ namespace Meadows.Stacktrace {
                     if (frame == first_vala) {
                         has_displayed_first_vala = true;
                         lead = "*";
-                        background_color = error_background;
+                        background_color = stacktrace.error_background;
                         function_padding = 22;
                     }
                     var l_number = "";

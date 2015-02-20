@@ -1,16 +1,18 @@
 #!/bin/bash
 # File history
-#  - 0.1: add task update and help
-#  - 0.2: add task build and prepare
-#  - 0.3: add task list
-#  - 0.4: add task rebuild
-#  - 0.5: fix warnings
-#  - 0.6: add task rel
-#  - 0.7: fixing formatting
-#  - 0.8: add install task and improve error handling
-#  - 0.9: rename cmake to .hen
-# TODO: valadoc, install-dgb, deb-prepare, deb-build, build+run, run
-# TODO file with () in the name makes the build fail
+#  - 0.1 : add task update and help
+#  - 0.2 : add task build and prepare
+#  - 0.3 : add task list
+#  - 0.4 : add task rebuild
+#  - 0.5 : fix warnings
+#  - 0.6 : add task rel
+#  - 0.7 : fixing formatting
+#  - 0.8 : add install task and improve error handling
+#  - 0.9 : rename cmake to .hen
+#  - 0.10: add valadoc and deb-build
+# TODO: install-dgb, deb-prepare, build+run, run
+# FIXME file with () in the name makes the build fail
+
 OPERATION="build"
 
 DEST_FOLDER=./.hen
@@ -41,7 +43,7 @@ do_setup () {
         echo "----------"
         echo -e "It maky take a while but it will be ${white}done only once${NC}..."
         echo ""
-        sudo apt-get install -y cmake valac build-essential
+        sudo apt-get install -y cmake valac build-essential valadoc
         RETURN_CODE=$?
         if [ "${RETURN_CODE}" == "0" ] ; then
           echo -e "${white}Installation done successfully.${NC}"
@@ -237,6 +239,8 @@ case "$OPERATION" in
    ;;
    "deb-build")do_deb_build
    ;;
+   "valadoc")do_valadoc
+   ;;   
    "help")do_help
    ;;
    "--help")do_help

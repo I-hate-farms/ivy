@@ -32,6 +32,13 @@
  */
 namespace Meadows.Stacktrace {
 
+    /**
+     * First paragraph,
+     * still the first paragraph
+     *
+     * Second paragraph, first line,<<BR>>
+     * second paragraph, second line
+     */
     public enum Style {
         RESET = 0,
         BRIGHT = 1,
@@ -48,6 +55,10 @@ namespace Meadows.Stacktrace {
         CRASH
     }
 
+/**
+ * ''bold'' //italic// __underlined__ ``block quote``,
+ * ''//__bold italic underlined__//''
+ */
     public enum Color {
         BLACK = 0,
         RED = 1,
@@ -59,19 +70,58 @@ namespace Meadows.Stacktrace {
         WHITE = 7
     }
 
+/**
+ * short description
+ *
+ *  1. numbered list
+ *  1. numbered list
+ *  1. numbered list
+ *
+ *  # numbered list
+ *  # numbered list
+ *  # numbered list
+ *
+ *  i. numbered list
+ *  i. numbered list
+ *  i. numbered list
+ *
+ *  I. numbered list
+ *  I. numbered list
+ *  I. numbered list
+ *
+ *  a. alphabetical list
+ *  a. alphabetical list
+ *  a. alphabetical list
+ *
+ *  A. alphabetical list
+ *  A. alphabetical list
+ *  A. alphabetical list
+ *
+ *  * doted list
+ *  * doted list
+ *  * doted list
+ *
+ *  A. alphabetical list
+ *    a. alphabetical list
+ *    a. alphabetical list
+ *  A. alphabetical list
+ *    a. alphabetical list
+ *    a. alphabetical list
+ *  A. alphabetical list
+ */
     public class Stacktrace {
 
         public Gee.ArrayList<Frame> _frames = new Gee.ArrayList<Frame>();
 
-        public Frame first_vala = null;
+        internal Frame first_vala = null;
 
-        public int max_file_name_length = 0;
+        internal int max_file_name_length = 0;
 
-        public int max_line_number_length = 0;
+        internal int max_line_number_length = 0;
 
-        public bool is_all_function_name_blank = true;
+        internal bool is_all_function_name_blank = true;
 
-        public bool is_all_file_name_blank = true;
+        internal bool is_all_file_name_blank = true;
 
         public ProcessSignal sig;
 
@@ -120,6 +170,16 @@ namespace Meadows.Stacktrace {
            printer.print (this) ;
         }
 
+/**
+ * Short description
+ *
+ * {{{
+ *   static int main (string[] arg) {
+ *      return 0;
+ *   }
+ * }}}
+ *
+ */
         public static void register_handlers () {
             Log.set_always_fatal (LogLevelFlags.LEVEL_CRITICAL);
 
@@ -144,6 +204,14 @@ namespace Meadows.Stacktrace {
 
            }*/
 
+/**
+ * Short description
+ *
+ * || ''headline'' || ''headline'' ||
+ * || one cell || one cell ||
+ * || one cell || one cell ||
+ *
+ */
         public static void handler (int sig) {
             if( !enabled)
                 return ;

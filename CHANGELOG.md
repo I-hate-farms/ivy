@@ -4,9 +4,10 @@ v1.0
   - fix the ??:00 bug
   - unknown methods are not highlighted anymore
   - display the method name from addr2line
-  - clean up and format code 
+  - clean up and format code
   - add sample
   - add documentation
+  - refactor the code
 
 v0.9
   - add warning when the -g -X compilation flags were missing
