@@ -30,6 +30,10 @@
  *        . Header not displaying an error for user created stacktrace
  *        . Change spacing
  */
+
+ /** 
+  * COMMENTS RIGHT HERE, RIGHT NOW 
+  */
 namespace Meadows.Stacktrace {
 
     /**
@@ -72,46 +76,32 @@ namespace Meadows.Stacktrace {
 
 /**
  * short description
+ * 
+ * {{{
+ * An error occured (SIGSEGV) in samples/vala_file.vala, line 21 in 'this_will_crash_harder'
+ *  The reason is likely a null reference being used.
  *
- *  1. numbered list
- *  1. numbered list
- *  1. numbered list
- *
- *  # numbered list
- *  # numbered list
- *  # numbered list
- *
- *  i. numbered list
- *  i. numbered list
- *  i. numbered list
- *
- *  I. numbered list
- *  I. numbered list
- *  I. numbered list
- *
- *  a. alphabetical list
- *  a. alphabetical list
- *  a. alphabetical list
- *
- *  A. alphabetical list
- *  A. alphabetical list
- *  A. alphabetical list
- *
- *  * doted list
- *  * doted list
- *  * doted list
- *
- *  A. alphabetical list
- *    a. alphabetical list
- *    a. alphabetical list
- *  A. alphabetical list
- *    a. alphabetical list
- *    a. alphabetical list
- *  A. alphabetical list
+ *    #1  <unknown>                                    in 'strlen'
+ *        at /lib/x86_64-linux-gnu/libc.so.6
+ * *  #2  samples/vala_file.vala             line  21 in 'this_will_crash_harder'               
+ *        at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/vala_file.vala:21
+ *    #3  samples/module/OtherModule.vala    line  11 in 'other_module_do_it'
+ *        at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/module/OtherModule.vala:11
+ *    #4  samples/error_sigsegv.vala         line  19 in 'namespace_someclass_exec'
+ *        at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:19
+ *    #5  samples/error_sigsegv.vala         line  29 in 'this_will_crash'
+ *       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:29
+ *    #6  samples/error_sigsegv.vala         line  39 in '_vala_main'
+ *        at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:39
+ *    #7  error_sigsegv.vala.c               line 421 in 'main'
+ *        at /home/cran/Documents/Projects/i-hate-farms/stacktrace/error_sigsegv.vala.c:421
+ *    #8  <unknown>                                    in '__libc_start_main'
+ *        at /lib/x86_64-linux-gnu/libc.so.6
+ * }}}
  */
     public class Stacktrace {
 
-        public Gee.ArrayList<Frame> _frames = new Gee.ArrayList<Frame>();
+        
 
         internal Frame first_vala = null;
 
@@ -122,21 +112,58 @@ namespace Meadows.Stacktrace {
         internal bool is_all_function_name_blank = true;
 
         internal bool is_all_file_name_blank = true;
+        
+        /**
+         * Description 
+         * 
+         */
+        public Gee.ArrayList<Frame> _frames = new Gee.ArrayList<Frame>();
 
+        /**
+         * Description 
+         * 
+         */
         public ProcessSignal sig;
-
+        /**
+         * Description 
+         * 
+         */
         public static bool enabled { get;set;default = true;}
 
+        /**
+         * Description 
+         * 
+         */        
         public static bool hide_installed_libraries { get;set;default = false;}
 
+        /**
+         * Description 
+         * 
+         */
         public static Color default_highlight_color { get;set;default = Color.WHITE;}
 
-        public static Color default_error_background { get;set;default = Color.RED;}
+        /**
+         * Description 
+         * 
+         */
+         public static Color default_error_background { get;set;default = Color.RED;}
 
-        public Color highlight_color { get;set;default = Color.WHITE;}
+        /**
+         * Description 
+         * 
+         */
+         public Color highlight_color { get;set;default = Color.WHITE;}
 
+        /**
+         * Description 
+         * 
+         */
         public Color error_background { get;set;default = Color.RED;}
 
+        /**
+         * Description 
+         * 
+         */
         public Gee.ArrayList<Frame> frames {
             get {
                 return _frames;
@@ -160,26 +187,42 @@ namespace Meadows.Stacktrace {
             extractor.create_stacktrace (this);
         }
 
+        /**
+         * Description 
+         * 
+         */
         public bool is_custom {
             get {
                 return sig == ProcessSignal.TTOU;
             }
         }
 
+        /**
+         * Print the stacktrace to stdout with colors 
+         * 
+         */
         public void print () {
            printer.print (this) ;
         }
 
-/**
- * Short description
- *
- * {{{
- *   static int main (string[] arg) {
- *      return 0;
- *   }
- * }}}
- *
- */
+        /**
+         * Registers handlers to intercept Unix signals. 
+         *
+         * Calling register_handlers is mandatory for Stacktrace to be able to 
+         * able to display a stacktrace when the application encounters an error.
+         *
+         * It is not needed to be able to display a custom stacktrace like in the 
+         * code below
+         *
+         * {{{
+         *   
+         *   static int main (string[] arg) {
+         *      new Stacktrace ().print () ;
+         *      return 0;
+         *   }
+         * }}}
+         *
+         */
         public static void register_handlers () {
             Log.set_always_fatal (LogLevelFlags.LEVEL_CRITICAL);
 
@@ -189,6 +232,9 @@ namespace Meadows.Stacktrace {
                 Process.@signal (ProcessSignal.ABRT, handler);
         }
 
+        /** 
+         * Short description 
+         */
         public static CriticalHandler critical_handling  { get;set;default = CriticalHandler.PRINT_STACKTRACE;}
 
         /*{
@@ -204,15 +250,7 @@ namespace Meadows.Stacktrace {
 
            }*/
 
-/**
- * Short description
- *
- * || ''headline'' || ''headline'' ||
- * || one cell || one cell ||
- * || one cell || one cell ||
- *
- */
-        public static void handler (int sig) {
+        private static void handler (int sig) {
             if( !enabled)
                 return ;
             Stacktrace stack = new Stacktrace ((ProcessSignal) sig);

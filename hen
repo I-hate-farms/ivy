@@ -10,6 +10,8 @@
 #  - 0.8 : add install task and improve error handling
 #  - 0.9 : rename cmake to .hen
 #  - 0.10: add valadoc and deb-build
+#  - 0.11: add force-update
+#  - 0.12: update delete build folder
 # TODO: install-dgb, deb-prepare, build+run, run
 # FIXME file with () in the name makes the build fail
 
@@ -92,11 +94,23 @@ do_update () {
       # Update the current hen script file with the a new one
       cp ${DEST_FOLDER}/hen .
 
-        # Cleaning up
-        rm -rf ${TEMP_FOLDER}
-        echo -e "${white}Hen updated to ${SERVER_VERSION}${NC}"
+      # Delete the build folder forcing a rebuild the next time
+      if [ -d "./build/" ] ; then
+        rm -rf "./build/"
+      fi
+      
+      # Cleaning up
+      rm -rf ${TEMP_FOLDER}
+      echo -e "${white}Hen updated to ${SERVER_VERSION}${NC}"
     fi
 
+}
+
+do_force_update () {    
+    if [ -d ${DEST_FOLDER} ] ; then
+        rm -rf ${DEST_FOLDER}
+    fi
+    do_update 
 }
 
 do_prepare () {
@@ -177,6 +191,9 @@ do_rebuild () {
   if [ -d ${BUILD_FOLDER} ] ; then
     rm -rf ${BUILD_FOLDER}
   fi
+  if [ -d "./dist"} ] ; then
+    rm -rf "./dist"
+  fi    
   do_build
 }
 
@@ -224,6 +241,8 @@ do_list () {
 
 case "$OPERATION" in
    "update") do_update
+   ;;
+   "force-update") do_force_update
    ;;
    "prepare") do_prepare
    ;;

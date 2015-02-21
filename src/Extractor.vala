@@ -33,6 +33,10 @@
 
 namespace Meadows.Stacktrace {
 
+    /**
+     * Extract the frame information
+     *
+     */
     public class Extractor {
 
         private bool show_debug_frames = false ;
@@ -260,7 +264,7 @@ namespace Meadows.Stacktrace {
             return "";
         }
 
-        public static string extract_line (string line) {
+        private static string extract_line (string line) {
             var result = line;
             if (result == "")
                 return "";
@@ -310,13 +314,22 @@ namespace Meadows.Stacktrace {
         // module : app
         // address : 0x007f80
         // output : /home/cran/Projects/noise/noise-perf-instant-search/tests/errors.vala:87
-        string process_line (string module, string address) {
+        private string process_line (string module, string address) {
             var cmd = "addr2line -f -e %s %s".printf (module, address);
             var result = execute_command_sync_get_output (cmd);
             //stdout.printf( "CMD %s\n", cmd) ;
             return result;
         }
 
+    /**
+     * Populate the stacktrace with frames extracted from Linux.Backtrace and completed
+     * via calls to unix tools `nm` and `addr2line`
+     * 
+     * Warning: because this methods creates synchronously other processes (nm and addr2line), it 
+     * can a significant impact on performance
+     * 
+     * @param trace the stacktrace 
+     */
         public void create_stacktrace (Stacktrace trace) {
             int frame_count = 100;
             int skipped_frames_count = 5;
@@ -372,7 +385,8 @@ namespace Meadows.Stacktrace {
                 if (short_file_path != "" && trace.is_all_file_name_blank)
                     trace.is_all_file_name_blank = false;
 
-                var frame = new Frame (addr, file_line, func, file_path, short_file_path);
+                var line_number = extract_line (file_line) ;
+                var frame = new Frame (addr, file_line, func, file_path, short_file_path, line_number);
 
                 if (trace.first_vala == null && file_path.has_suffix (".vala"))
                     trace.first_vala = frame;

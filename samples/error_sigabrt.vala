@@ -1,3 +1,5 @@
+using Meadows.Stacktrace  ;
+
 private void this_will_crash () {
     var hi = "johnny !";
     assert (hi == "wiseau");

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+using Meadows.Stacktrace  ;
 
 private void this_will_crash () {
     string content = "";
@@ -24,9 +25,9 @@ private void this_will_crash () {
 }
 
 int main (string[] args) {
-    stdout.printf( "sigtrap : TITLE: %s\n", Build.TITLE) ;
+    // stdout.printf( "sigtrap : TITLE: %s\n", Build.TITLE) ;
     // Same as G_DEBUG=fatal-criticals in your environment variables
-    Stacktrace.critical_handling = Stacktrace.CriticalHandler.CRASH;
+    Stacktrace.critical_handling = CriticalHandler.CRASH;
     Stacktrace.register_handlers ();
 
     stdout.printf ("  This program will crash with an uncaught error which will be logged as CRITICAL!\n");

@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+ using Meadows.Stacktrace  ;
+
 private void this_will_crash () {
     var hi = "johnny !";
     assert (hi == "wiseau");
@@ -22,8 +23,8 @@ private void this_will_crash () {
 
 int main (string[] args) {
     // Soothing, uh?
-    Stacktrace.default_highlight_color = Stacktrace.Color.GREEN;
-    Stacktrace.default_error_background = Stacktrace.Color.WHITE;
+    Stacktrace.default_highlight_color = Color.GREEN;
+    Stacktrace.default_error_background = Color.WHITE;
     Stacktrace.register_handlers ();
 
     stdout.printf ("  This program will crash with fancy colors!\n");

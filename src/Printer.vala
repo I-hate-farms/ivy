@@ -32,13 +32,14 @@
  */
 namespace Meadows.Stacktrace {
 
+    /**
+     * Print the stacktrace to stdout using colors
+     * 
+     */     
     public class Printer {
 
-        public bool hide_installed_libraries { get;set;default = false;}
-
-        //public Color highlight_color { get;set;default = Color.WHITE;}
-
-        //public Color error_background { get;set;default = Color.RED;}
+        private Color background_color = Color.BLACK;
+        private int title_length = 0;
 
         private Stacktrace stacktrace ;
 
@@ -114,9 +115,6 @@ namespace Meadows.Stacktrace {
             return result;
         }
 
-        Color background_color = Color.BLACK;
-        int title_length = 0;
-
         private string get_printable_title () {
             var c = get_color_code (Style.DIM, stacktrace.highlight_color, background_color);
             var color = get_highlight_code ();
@@ -164,7 +162,7 @@ namespace Meadows.Stacktrace {
          * @param trace the stacktrace 
          * 
          */
-        public void print (Stacktrace trace) {
+        public virtual void print (Stacktrace trace) {
             this.stacktrace = trace ;
             background_color = stacktrace.error_background;
             var header = "%s%s\n".printf (get_printable_title (),
@@ -208,7 +206,7 @@ namespace Meadows.Stacktrace {
             bool has_displayed_first_vala = false;
             foreach (var frame in trace.frames) {
                 var show_frame = frame.function != "" || frame.file_path.has_suffix (".vala") || frame.file_path.has_suffix (".c");
-                if (hide_installed_libraries && has_displayed_first_vala)
+                if (Stacktrace.hide_installed_libraries && has_displayed_first_vala)
                     show_frame = show_frame && frame.file_short_path != "";
 
                 // Ignore glib tracing code if displayed before the first vala frame

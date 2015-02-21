@@ -1,3 +1,7 @@
 .hen/
 build/
 dist/
+samples/sample_colors
+samples/sample_sigabrt
+samples/sample_sigsegv
+samples/sample_sigtrap
