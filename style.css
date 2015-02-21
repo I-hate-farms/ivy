@@ -28,6 +28,32 @@ margin-left: 40px ;
 margin-right: 40px ;
 }
 
+/* CARL inheritance box (see Printer page) */
+/*.box {
+	border: 1px solid #ccc;
+	margin-left: 40px ;
+	margin-right: 40px ;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}*/
+.box .headline {
+	margin-left: 40px ;
+
+}
+/* Parameter in function description */ 
+td.main_parameter_table_name
+{
+	font-family: 'Courier New', Courier, monospace;
+	font-weight: bold;
+}
+
+/*
+////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
 .main_keyword,
 .main_keyword a,
 .site_content .main_keyword a,

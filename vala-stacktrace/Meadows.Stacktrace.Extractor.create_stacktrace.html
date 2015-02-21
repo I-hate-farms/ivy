@@ -42,12 +42,11 @@
         <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">void</span> <b><span class="method">create_stacktrace</span></b> (<span class="main_type"><a href="Meadows.Stacktrace.Stacktrace.html" class="class">Stacktrace</a></span> trace)
         </div>
         <div class="description">
-          <p>Populate the stacktrace with frames extracted from Linux.Backtrace and completed via calls to unix tools `nm` and `addr2line`</p>
-          <div class="main_notification_block"><span class="main_block_headline">Warning:</span> 
-            <div class="main_block_content">
-              <p>because this methods creates synchronously other processes (nm and addr2line), it can a significant impact on performance </p>
-            </div>
-          </div>
+          <p>Populate the stacktrace.</p>
+          <p>The frames are extracted from <code>Linux.Backtrace</code> and enriched via calls to unix tools <code>nm</code> and <code>addr2line
+            </code>.</p>
+          <p><b>Warning:</b> because this methods calls synchronously other applications (nm and addr2line), it can have a significant impact on 
+            performance.</p>
           <h2 class="main_title">Parameters:</h2>
           <table class="main_parameter_table">
             <tr>
