@@ -18,6 +18,18 @@
 
 @import url('http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,900');
 
+// CARL propostion to hide the package and namespace name in the class page
+// They are not that useful: so either hide them or pick a style that downplay their importance
+// For now, I'm experimenting with hiding them
+// Feel free the remove this 
+
+.namespace_note{
+	display: none;
+}
+.package_note{
+	display: none;
+}
+
 // defines a value for the colorscheme in a way that it is picked up everywhere
 .colorscheme_val(@identifier, @color) {
 	.main_@{identifier},
