@@ -131,7 +131,10 @@ body {
 	background-color: @primaryColor;
 	border-bottom: 1px solid @darkPrimaryColor;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-
+	// Stay on top. To be tested with IE-6
+	position: fixed;
+	width: 100%;
+	top:0;
 	.navi_main {
 		@height: 32px;
 		@inner_padding: 6px;
