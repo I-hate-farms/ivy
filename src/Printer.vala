@@ -14,22 +14,6 @@
  * limitations under the License.
  */
 
-/* History
- *  - 1.4 :
- *        . investigating the get_media bug
- *  - 1.3 :
- *        . Optim: do not parse libraries that have no runtime
- *          info over and over
- *        . A library is something that contains the string ".so"
- *  - 1.2 :
- *        . Include elementary.cmake
- *  - 1.1 :
- *        . Support debugging in multiple .so
- *  - 1.0 : Oct, 18 2014
- *        . initial version
- *        . Header not displaying an error for user created stacktrace
- *        . Change spacing
- */
 namespace Meadows.Stacktrace {
 
     /**

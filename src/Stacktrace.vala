@@ -14,23 +14,6 @@
  * limitations under the License.
  */
 
-/* History
- *  - 1.4 :
- *        . investigating the get_media bug
- *  - 1.3 :
- *        . Optim: do not parse libraries that have no runtime
- *          info over and over
- *        . A library is something that contains the string ".so"
- *  - 1.2 :
- *        . Include elementary.cmake
- *  - 1.1 :
- *        . Support debugging in multiple .so
- *  - 1.0 : Oct, 18 2014
- *        . initial version
- *        . Header not displaying an error for user created stacktrace
- *        . Change spacing
- */
-
  /** 
   * COMMENTS RIGHT HERE, RIGHT NOW 
   */
@@ -90,7 +73,7 @@ namespace Meadows.Stacktrace {
  *    #4  samples/error_sigsegv.vala         line  19 in 'namespace_someclass_exec'
  *        at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:19
  *    #5  samples/error_sigsegv.vala         line  29 in 'this_will_crash'
- *       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:29
+ *        at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:29
  *    #6  samples/error_sigsegv.vala         line  39 in '_vala_main'
  *        at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:39
  *    #7  error_sigsegv.vala.c               line 421 in 'main'
