@@ -44,3 +44,21 @@ function toggle_box (self, id) {
 	}
 }
 
+// Hiding the inheritance graph if there is no parent or child
+function init () {
+	var body = document.getElementsByTagName("body")[0];
+
+	if( body == null ) {
+		// Recheck each 10 ms until everything is run properly
+		setTimeout(init, 10);
+	}
+	else {
+		var diagram = document.getElementsByClassName("main_diagram")[0] ; 
+	
+		diagram.style.display = document.getElementsByTagName("area").length < 2 ? 'none' : 'block';
+
+	}
+
+}
+
+init () ;
