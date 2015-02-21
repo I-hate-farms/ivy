@@ -31,7 +31,6 @@
         </ul>
         <hr class="navi_hr"/>
         <ul class="navi_main">
-          <li class="static_method"><a href="Meadows.Stacktrace.Extractor.extract_line.html">extract_line</a></li>
           <li class="creation_method"><a href="Meadows.Stacktrace.Extractor.Extractor.html">Extractor</a></li>
           <li class="method">create_stacktrace</li>
         </ul>
@@ -41,6 +40,23 @@
         <hr class="main_hr"/>
         <h2 class="main_title">Description:</h2>
         <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">void</span> <b><span class="method">create_stacktrace</span></b> (<span class="main_type"><a href="Meadows.Stacktrace.Stacktrace.html" class="class">Stacktrace</a></span> trace)
+        </div>
+        <div class="description">
+          <p>Populate the stacktrace with frames extracted from Linux.Backtrace and completed via calls to unix tools `nm` and `addr2line`</p>
+          <div class="main_notification_block"><span class="main_block_headline">Warning:</span> 
+            <div class="main_block_content">
+              <p>because this methods creates synchronously other processes (nm and addr2line), it can a significant impact on performance </p>
+            </div>
+          </div>
+          <h2 class="main_title">Parameters:</h2>
+          <table class="main_parameter_table">
+            <tr>
+              <td class="main_parameter_table_name">trace</td>
+              <td>
+                <p>the stacktrace </p>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div><br/>

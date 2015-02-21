@@ -40,7 +40,6 @@
           <li class="property"><a href="Meadows.Stacktrace.Stacktrace.hide_installed_libraries.html">hide_installed_libraries</a></li>
           <li class="property"><a href="Meadows.Stacktrace.Stacktrace.highlight_color.html">highlight_color</a></li>
           <li class="property"><a href="Meadows.Stacktrace.Stacktrace.is_custom.html">is_custom</a></li>
-          <li class="static_method"><a href="Meadows.Stacktrace.Stacktrace.handler.html">handler</a></li>
           <li class="static_method">register_handlers</li>
           <li class="creation_method"><a href="Meadows.Stacktrace.Stacktrace.Stacktrace.html">Stacktrace</a></li>
           <li class="method"><a href="Meadows.Stacktrace.Stacktrace.print.html">print</a></li>
@@ -55,8 +54,11 @@
         <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">static</span> <span class="main_keyword">void</span> <b><span class="static_method">register_handlers</span></b> ()
         </div>
         <div class="description">
-          <p>Short description</p>
-          <p><pre class="main_source">  static int main (string[] arg) {<br/>     return 0;<br/>  }</pre></p>
+          <p>Registers handlers to intercept Unix signals.</p>
+          <p>Calling register_handlers is mandatory for Stacktrace to be able to able to display a stacktrace when the application encounters an 
+            error.</p>
+          <p>It is not needed to be able to display a custom stacktrace like in the code below</p>
+          <p><pre class="main_source">  static int main (string[] arg) {<br/>     new Stacktrace ().print () ;<br/>     return 0;<br/>  }</pre></p>
         </div>
       </div>
     </div><br/>

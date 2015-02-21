@@ -53,6 +53,16 @@
 
         <h2 class="main_title">Description:</h2>
         <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">Frame</span></b>
+        </div>
+        <div class="description">
+          <p>This class represent on instance of a frame, ie a particular location in a binary (application or library) on the system called by the 
+            application</p>
+          <div class="main_notification_block"><span class="main_block_headline">Note:</span> 
+            <div class="main_block_content">
+              <p>frames from system libraries without code information available are not displayed by default. See Stacktrace.hide_installed_libraries
+                for how to display them. </p>
+            </div>
+          </div>
         </div><br/>
         <div class="namespace_note"><b>Namespace:</b> <a href="Meadows.Stacktrace.html">Meadows.Stacktrace</a>
         </div>
@@ -63,32 +73,36 @@
         <ul class="navi_inline">
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span> <b><a href="Meadows.Stacktrace.Frame.address.html" class="property">address</a></b> { <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description">
+            <div class="leaf_brief_description"><span class="brief_description">Address of the stack in hexadecimal. Ex: 0x00EDE</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span> <b><a href="Meadows.Stacktrace.Frame.line.html" class="property">line</a></b> { <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description">
+            <div class="leaf_brief_description"><span class="brief_description">Line of code. Can point to C code, Vala code or be blank if no symbol 
+                is available (or if -rdynamic has not been set during the compilation of the binary) Ex:</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span> <b><a href="Meadows.Stacktrace.Frame.line_number.html" class="property">line_number</a></b> { <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description">
+            <div class="leaf_brief_description"><span class="brief_description">Line number in the code file. May be blank if no code information is 
+                available Ex: 25</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span> <b><a href="Meadows.Stacktrace.Frame.file_path.html" class="property">file_path</a></b> { <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description">
+            <div class="leaf_brief_description"><span class="brief_description">Full path to the code file as it was stored on the building machine. 
+                Returns the path to the installed binary if no code information is available Ex: <i></i></span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span> <b><a href="Meadows.Stacktrace.Frame.file_short_path.html" class="property">file_short_path</a></b> { <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description">
+            <div class="leaf_brief_description"><span class="brief_description">Path the code file relative to the current path. Returns the path to 
+                the installed binary if no code information is available Ex: <i></i></span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span> <b><a href="Meadows.Stacktrace.Frame.function.html" class="property">function</a></b> { <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description">
+            <div class="leaf_brief_description"><span class="brief_description">C Function name.</span>
             </div></li>
         </ul>
         <h3 class="main_title">Creation methods:</h3>
         <ul class="navi_inline">
-          <li class="creation_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <b><a href="Meadows.Stacktrace.Frame.Frame.html" class="creation_method">Frame</a></b> (<span class="main_basic_type"><span class="class">string</span></span> address, <span class="main_basic_type"><span class="class">string</span></span> line, <span class="main_basic_type"><span class="class">string</span></span> function, <span class="main_basic_type"><span class="class">string</span></span> file_path, <span class="main_basic_type"><span class="class">string</span></span> file_short_path)
+          <li class="creation_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <b><a href="Meadows.Stacktrace.Frame.Frame.html" class="creation_method">Frame</a></b> (<span class="main_basic_type"><span class="class">string</span></span> address, <span class="main_basic_type"><span class="class">string</span></span> line, <span class="main_basic_type"><span class="class">string</span></span> function, <span class="main_basic_type"><span class="class">string</span></span> file_path, <span class="main_basic_type"><span class="class">string</span></span> file_short_path, <span class="main_basic_type"><span class="class">string</span></span> line_number)
             </span>
             <div class="leaf_brief_description">
             </div></li>
