@@ -43,7 +43,6 @@
           <li class="static_method"><a href="Meadows.Stacktrace.Stacktrace.register_handlers.html">register_handlers</a></li>
           <li class="creation_method"><a href="Meadows.Stacktrace.Stacktrace.Stacktrace.html">Stacktrace</a></li>
           <li class="method"><a href="Meadows.Stacktrace.Stacktrace.print.html">print</a></li>
-          <li class="field"><a href="Meadows.Stacktrace.Stacktrace._frames.html">_frames</a></li>
           <li class="field"><a href="Meadows.Stacktrace.Stacktrace.sig.html">sig</a></li>
         </ul>
       </div>
@@ -63,8 +62,11 @@
         <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">Stacktrace</span></b>
         </div>
         <div class="description">
-          <p>short description</p>
-          <p><pre class="main_source">An error occured (SIGSEGV) in samples/vala_file.vala, line 21 in 'this_will_crash_harder'<br/> The reason is likely a null reference being used.<br/><br/>   #1  &lt;unknown&gt;                                    in 'strlen'<br/>       at /lib/x86_64-linux-gnu/libc.so.6<br/>*  #2  samples/vala_file.vala             line  21 in 'this_will_crash_harder'               <br/>       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/vala_file.vala:21<br/>   #3  samples/module/OtherModule.vala    line  11 in 'other_module_do_it'<br/>       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/module/OtherModule.vala:11<br/>   #4  samples/error_sigsegv.vala         line  19 in 'namespace_someclass_exec'<br/>       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:19<br/>   #5  samples/error_sigsegv.vala         line  29 in 'this_will_crash'<br/>       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:29<br/>   #6  samples/error_sigsegv.vala         line  39 in '_vala_main'<br/>       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:39<br/>   #7  error_sigsegv.vala.c               line 421 in 'main'<br/>       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/error_sigsegv.vala.c:421<br/>   #8  &lt;unknown&gt;                                    in '__libc_start_main'<br/>       at /lib/x86_64-linux-gnu/libc.so.6</pre>
+          <p>A complete execution stacktrace</p>
+          <p>Holds a collection of <a href="Meadows.Stacktrace.Frame.html" class="class">Frame</a> and the basic methods to intercept Unix signals and
+            prints the complete stacktrace to <code>stdout</code> in colors.</p>
+          <p>For more information, refer to the <a href="https://github.com/I-hate-farms/stacktrace">official website</a>.</p>
+          <p>Here's a sample of a printed stacktrace: <pre class="main_source">An error occured (SIGSEGV) in samples/vala_file.vala, line 21 in 'this_will_crash_harder'<br/>The reason is likely a null reference being used.<br/><br/>   #1  &lt;unknown&gt;                                   in 'strlen'<br/>       at /lib/x86_64-linux-gnu/libc.so.6<br/>*  #2  samples/vala_file.vala             line  21 in 'this_will_crash_harder'               <br/>       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/vala_file.vala:21<br/>   #3  samples/module/OtherModule.vala    line  11 in 'other_module_do_it'<br/>       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/module/OtherModule.vala:11<br/>   #4  samples/error_sigsegv.vala         line  19 in 'namespace_someclass_exec'<br/>       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:19<br/>   #5  samples/error_sigsegv.vala         line  29 in 'this_will_crash'<br/>       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:29<br/>   #6  samples/error_sigsegv.vala         line  39 in '_vala_main'<br/>       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/samples/error_sigsegv.vala:39<br/>   #7  error_sigsegv.vala.c               line 421 in 'main'<br/>       at /home/cran/Documents/Projects/i-hate-farms/stacktrace/error_sigsegv.vala.c:421<br/>   #8  &lt;unknown&gt;                                   in '__libc_start_main'<br/>       at /lib/x86_64-linux-gnu/libc.so.6</pre>
           </p>
         </div><br/>
         <div class="namespace_note"><b>Namespace:</b> <a href="Meadows.Stacktrace.html">Meadows.Stacktrace</a>
@@ -76,46 +78,51 @@
         <ul class="navi_inline">
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">bool</span></span> <b><a href="Meadows.Stacktrace.Stacktrace.enabled.html" class="property">enabled</a></b> { <span class="main_keyword">set</span>; <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description"><span class="brief_description">Description</span>
+            <div class="leaf_brief_description"><span class="brief_description">Enables the Unix signals interception</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">bool</span></span> <b><a href="Meadows.Stacktrace.Stacktrace.hide_installed_libraries.html" class="property">hide_installed_libraries</a></b> { <span class="main_keyword">set</span>; <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description"><span class="brief_description">Description</span>
+            <div class="leaf_brief_description"><span class="brief_description">Hides frames located in external system libraries (like <code>libgc
+                </code>) without code information</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="Meadows.Stacktrace.Color.html" class="enum">Color</a></span> <b><a href="Meadows.Stacktrace.Stacktrace.default_highlight_color.html" class="property">default_highlight_color</a></b> { <span class="main_keyword">set</span>; <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description"><span class="brief_description">Description</span>
+            <div class="leaf_brief_description"><span class="brief_description">Sets the default higlighted text color for stacktrace that are created
+                via Unix signals interception</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="Meadows.Stacktrace.Color.html" class="enum">Color</a></span> <b><a href="Meadows.Stacktrace.Stacktrace.default_error_background.html" class="property">default_error_background</a></b> { <span class="main_keyword">set</span>; <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description"><span class="brief_description">Description</span>
+            <div class="leaf_brief_description"><span class="brief_description">Sets the default background color for stacktrace that are created via 
+                Unix signals interception</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="Meadows.Stacktrace.Color.html" class="enum">Color</a></span> <b><a href="Meadows.Stacktrace.Stacktrace.highlight_color.html" class="property">highlight_color</a></b> { <span class="main_keyword">set</span>; <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description"><span class="brief_description">Description</span>
+            <div class="leaf_brief_description"><span class="brief_description">Sets the stacktrace higlighted text color when printed on <code>stdout
+                </code></span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="Meadows.Stacktrace.Color.html" class="enum">Color</a></span> <b><a href="Meadows.Stacktrace.Stacktrace.error_background.html" class="property">error_background</a></b> { <span class="main_keyword">set</span>; <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description"><span class="brief_description">Description</span>
+            <div class="leaf_brief_description"><span class="brief_description">Sets the stacktrace background color when printed on <code>stdout
+                </code></span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><span class="class">ArrayList</span></span>&lt;<span class="main_type"><a href="Meadows.Stacktrace.Frame.html" class="class">Frame</a></span>&gt; <b><a href="Meadows.Stacktrace.Stacktrace.frames.html" class="property">frames</a></b> { <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description"><span class="brief_description">Description</span>
+            <div class="leaf_brief_description"><span class="brief_description">Collection of frames</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">bool</span></span> <b><a href="Meadows.Stacktrace.Stacktrace.is_custom.html" class="property">is_custom</a></b> { <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description"><span class="brief_description">Description</span>
+            <div class="leaf_brief_description"><span class="brief_description">Returns true if the stacktrace is "custom"</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="Meadows.Stacktrace.CriticalHandler.html" class="enum">CriticalHandler</a></span> <b><a href="Meadows.Stacktrace.Stacktrace.critical_handling.html" class="property">critical_handling</a></b> { <span class="main_keyword">set</span>; <span class="main_keyword">get</span>; }
             </span>
-            <div class="leaf_brief_description"><span class="brief_description">Short description</span>
+            <div class="leaf_brief_description"><span class="brief_description">Defines how Unix signals are processed</span>
             </div></li>
         </ul>
         <h3 class="main_title">Static methods:</h3>
         <ul class="navi_inline">
           <li class="static_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">static</span> <span class="main_keyword">void</span> <b><a href="Meadows.Stacktrace.Stacktrace.register_handlers.html" class="static_method">register_handlers</a></b> ()
             </span>
-            <div class="leaf_brief_description"><span class="brief_description">Registers handlers to intercept Unix signals.</span>
+            <div class="leaf_brief_description"><span class="brief_description">Registers handlers to intercept Unix signals</span>
             </div></li>
         </ul>
         <h3 class="main_title">Creation methods:</h3>
@@ -129,18 +136,14 @@
         <ul class="navi_inline">
           <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">void</span> <b><a href="Meadows.Stacktrace.Stacktrace.print.html" class="method">print</a></b> ()
             </span>
-            <div class="leaf_brief_description"><span class="brief_description">Print the stacktrace to stdout with colors</span>
+            <div class="leaf_brief_description"><span class="brief_description">Prints the stacktrace to <code>stdout</code> with colors</span>
             </div></li>
         </ul>
         <h3 class="main_title">Fields:</h3>
         <ul class="navi_inline">
-          <li class="field"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><span class="class">ArrayList</span></span>&lt;<span class="main_type"><a href="Meadows.Stacktrace.Frame.html" class="class">Frame</a></span>&gt; <b><a href="Meadows.Stacktrace.Stacktrace._frames.html" class="field">_frames</a></b>
-            </span>
-            <div class="leaf_brief_description"><span class="brief_description">Description</span>
-            </div></li>
           <li class="field"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><span class="enum">ProcessSignal</span></span> <b><a href="Meadows.Stacktrace.Stacktrace.sig.html" class="field">sig</a></b>
             </span>
-            <div class="leaf_brief_description"><span class="brief_description">Description</span>
+            <div class="leaf_brief_description"><span class="brief_description">Unix signal being intercepted</span>
             </div></li>
         </ul>
       </div>

@@ -43,7 +43,6 @@
           <li class="static_method"><a href="Meadows.Stacktrace.Stacktrace.register_handlers.html">register_handlers</a></li>
           <li class="creation_method"><a href="Meadows.Stacktrace.Stacktrace.Stacktrace.html">Stacktrace</a></li>
           <li class="method"><a href="Meadows.Stacktrace.Stacktrace.print.html">print</a></li>
-          <li class="field"><a href="Meadows.Stacktrace.Stacktrace._frames.html">_frames</a></li>
           <li class="field"><a href="Meadows.Stacktrace.Stacktrace.sig.html">sig</a></li>
         </ul>
       </div>
@@ -54,7 +53,13 @@
         <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">bool</span></span> <b><span class="property">is_custom</span></b> { <span class="main_keyword">get</span>; }
         </div>
         <div class="description">
-          <p>Description</p>
+          <p>Returns true if the stacktrace is "custom"</p>
+          <p>A custom stacktrace has been created via code as opposed to created via Unix signal interception.</p>
+          <p>Custom stacktrace are displayed with a different color scheme (default <code>Color.GREEN</code>) that can be set via 
+            <a href="Meadows.Stacktrace.Stacktrace.highlight_color.html" class="property">highlight_color</a> and 
+            <a href="Meadows.Stacktrace.Stacktrace.error_background.html" class="property">error_background</a></p>
+          <p>Here's how to create a custom stacktrace: <pre class="main_source">  int my_function (string arg) {<br/>     var custom_stracktrace = new Stacktrace () ;<br/>     custom_stracktrace.print () ;<br/>     return 0;<br/>  }</pre>
+          </p>
         </div>
       </div>
     </div><br/>

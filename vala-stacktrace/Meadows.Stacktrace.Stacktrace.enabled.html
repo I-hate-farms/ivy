@@ -43,7 +43,6 @@
           <li class="static_method"><a href="Meadows.Stacktrace.Stacktrace.register_handlers.html">register_handlers</a></li>
           <li class="creation_method"><a href="Meadows.Stacktrace.Stacktrace.Stacktrace.html">Stacktrace</a></li>
           <li class="method"><a href="Meadows.Stacktrace.Stacktrace.print.html">print</a></li>
-          <li class="field"><a href="Meadows.Stacktrace.Stacktrace._frames.html">_frames</a></li>
           <li class="field"><a href="Meadows.Stacktrace.Stacktrace.sig.html">sig</a></li>
         </ul>
       </div>
@@ -54,7 +53,11 @@
         <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">bool</span></span> <b><span class="property">enabled</span></b> { <span class="main_keyword">set</span>; <span class="main_keyword">get</span>; }
         </div>
         <div class="description">
-          <p>Description</p>
+          <p>Enables the Unix signals interception</p>
+          <p>Setting it to false and preventing signals interception and the collection of the complete stacktrace (that might a significant effect on
+            performance) is useful when the application uses a library that emits a <code>SIGTRAP</code> signal for unknown reasons.</p>
+          <p>Such a case would cripple the application performance and clutter the <code>stdout</code> ouput for no benefit.</p>
+          <p>Default is <code>true</code></p>
         </div>
       </div>
     </div><br/>

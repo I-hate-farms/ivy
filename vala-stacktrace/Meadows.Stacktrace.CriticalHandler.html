@@ -41,6 +41,9 @@
         <hr class="main_hr"/>
         <h2 class="main_title">Description:</h2>
         <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">enum</span> <b><span class="enum">CriticalHandler</span></b>
+        </div>
+        <div class="description">
+          <p>Defines how Unix signals are processed</p>
         </div><br/>
         <div class="namespace_note"><b>Namespace:</b> <a href="Meadows.Stacktrace.html">Meadows.Stacktrace</a>
         </div>
@@ -49,9 +52,13 @@
         <h2 class="main_title">Content:</h2>
         <h3 class="main_title">Enum values:</h3>
         <ul class="navi_inline">
-          <li class="enumvalue"><a href="Meadows.Stacktrace.CriticalHandler.IGNORE.html">IGNORE</a> - </li>
-          <li class="enumvalue"><a href="Meadows.Stacktrace.CriticalHandler.PRINT_STACKTRACE.html">PRINT_STACKTRACE</a> - </li>
-          <li class="enumvalue"><a href="Meadows.Stacktrace.CriticalHandler.CRASH.html">CRASH</a> - </li>
+          <li class="enumvalue"><a href="Meadows.Stacktrace.CriticalHandler.IGNORE.html">IGNORE</a> - <span class="brief_description">Unix signals are
+              ignored</span></li>
+          <li class="enumvalue"><a href="Meadows.Stacktrace.CriticalHandler.PRINT_STACKTRACE.html">PRINT_STACKTRACE</a> - 
+            <span class="brief_description">When a signal is intercepted, a stacktrace is displayed to <code>stdout</code> and the execution of the 
+              application is resumed</span></li>
+          <li class="enumvalue"><a href="Meadows.Stacktrace.CriticalHandler.CRASH.html">CRASH</a> - <span class="brief_description">When a signal is 
+              intercepted, a stacktrace is displayed to <code>stdout</code> and the application is stopped</span></li>
         </ul>
       </div>
     </div><br/>

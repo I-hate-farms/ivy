@@ -49,15 +49,23 @@ function init () {
 	var body = document.getElementsByTagName("body")[0];
 
 	if( body == null ) {
-		// Recheck each 10 ms until the code can be executed on the body
+		// Recheck each 10 ms just in case the body is not 
+		// properly loaded
 		setTimeout(init, 10);
 	}
 	else {
-
 		var diagram = document.getElementsByClassName("main_diagram")[0] ; 
-		diagram.style.display = document.getElementsByTagName("area").length < 2 ? 'none' : 'block';
+		var box_count = document.getElementsByTagName("area").length ;
+		diagram.style.display = box_count < 2 ? 'none' : 'block';
 	}
 
 }
 
-init () ;
+if (window.addEventListener) // W3C standard
+{
+  window.addEventListener('load', init, false); // NB **not** 'onload'
+} 
+else if (window.attachEvent) // Microsoft
+{
+  window.attachEvent('onload', init);
+}

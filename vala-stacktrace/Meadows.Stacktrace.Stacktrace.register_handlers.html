@@ -43,7 +43,6 @@
           <li class="static_method">register_handlers</li>
           <li class="creation_method"><a href="Meadows.Stacktrace.Stacktrace.Stacktrace.html">Stacktrace</a></li>
           <li class="method"><a href="Meadows.Stacktrace.Stacktrace.print.html">print</a></li>
-          <li class="field"><a href="Meadows.Stacktrace.Stacktrace._frames.html">_frames</a></li>
           <li class="field"><a href="Meadows.Stacktrace.Stacktrace.sig.html">sig</a></li>
         </ul>
       </div>
@@ -54,11 +53,13 @@
         <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">static</span> <span class="main_keyword">void</span> <b><span class="static_method">register_handlers</span></b> ()
         </div>
         <div class="description">
-          <p>Registers handlers to intercept Unix signals.</p>
-          <p>Calling register_handlers is mandatory for Stacktrace to be able to able to display a stacktrace when the application encounters an 
-            error.</p>
-          <p>It is not needed to be able to display a custom stacktrace like in the code below</p>
-          <p><pre class="main_source">  static int main (string[] arg) {<br/>     new Stacktrace ().print () ;<br/>     return 0;<br/>  }</pre></p>
+          <p>Registers handlers to intercept Unix signals</p>
+          <p>Calling <code>register_handlers</code> is required for the library to display a stacktrace when the application encounters an error (ie 
+            raises a <code>SIGABRT</code>, a <code>SIGSEV</code> or a <code>SIGTRAP</code> signal).</p>
+          <p><b>Note:</b> calling <code>register_handlers</code> is not needed to be able to display custom stacktraces. <br/> (See 
+            <a href="Meadows.Stacktrace.Stacktrace.is_custom.html" class="property">is_custom</a> for more information about custom stacktraces).</p>
+          <p>How to initialize the library so it can intercept Unix signals: <pre class="main_source">  static int main (string[] arg) {<br/>     Stacktrace.register_handlers ();<br/>     // Start your application<br/>     ... <br/>     return 0;<br/>  }</pre>
+          </p>
         </div>
       </div>
     </div><br/>

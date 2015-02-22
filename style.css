@@ -1,4 +1,6 @@
 @import url('http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,900');
+/* CARL */
+
 /* even worse dark theme styles. not ready yet.
 @darkPrimaryColor: #1B5E20;
 @primaryColor: #33691E;
@@ -46,10 +48,27 @@ margin-right: 40px ;
 /* Parameter in function description */ 
 td.main_parameter_table_name
 {
-	font-family: 'Courier New', Courier, monospace;
-	font-weight: bold;
+	font-family: "Lucida Console", "Monaco", "DejaVu Sans Mono", monospace;
+	/* Or this ?? 
+	font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
+	 see http://www.setnode.com/blog/consolas-is-a-poor-choice-for-web-use/
+	font-family: "Lucida Console", "Monaco", "DejaVu Sans Mono", monospace; */
+	border: 1px solid #E1E1E8;
+	padding: 1px 3px;
+	font-size: 0.72rem; 
+	white-space: normal;
+	background-color: #F7F7F9;
 }
 
+/* Pasted from slack. FIXME review this Meadows.Stacktrace.Stacktrace.is_custom.html */
+code{
+	border: 1px solid #E1E1E8;
+	padding: 1px 3px;
+	font-size: 0.72rem;
+	white-space: normal;
+	background-color: #F7F7F9;
+	color: #C25;
+}
 /*
 ////////////////////////////////////////////////////////////////////////////////////////////
 */
@@ -433,7 +452,13 @@ color: #689f38;
 .site_content .main_diagram {
 float: right;
 margin: 32px;
+
+/* CARL */ 
+border: 1px solid #CCC;
+margin-top: 64px;
+padding: 20px;
 }
+
 .site_content .main_code_definition {
 background-color: #f5f5f5;
 color: #333;
