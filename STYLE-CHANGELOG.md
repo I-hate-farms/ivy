@@ -1,5 +1,5 @@
 * 0.3
- - updload documentation to [github pages](http://i-hate-farms.github.io/stacktrace/vala-stacktrace/index.htm)
+ - upload documentation to [github pages](http://i-hate-farms.github.io/stacktrace/vala-stacktrace/index.htm)
 
 * 0.2:
  - hide class diagram when there is only one class
