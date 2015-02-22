@@ -1,6 +1,6 @@
-*0.3
+* 0.3
  - updload documentation to [github pages](http://i-hate-farms.github.io/stacktrace/vala-stacktrace/index.htm)
- 
+
 * 0.2:
  - hide class diagram when there is only one class
  - lower diagram and surround it with frame
