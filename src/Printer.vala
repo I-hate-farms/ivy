@@ -17,7 +17,7 @@
 namespace Meadows.Stacktrace {
 
     /**
-     * Print the stacktrace to stdout using colors
+     * Prints the stacktrace to ``stdout`` in colors
      * 
      */     
     public class Printer {
@@ -141,7 +141,7 @@ namespace Meadows.Stacktrace {
         }
 
         /**
-         * Print the stacktrace to stdout
+         * Print the stacktrace to ``stdout``
          *
          * @param trace the stacktrace 
          * 

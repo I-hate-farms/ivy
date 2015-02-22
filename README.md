@@ -29,6 +29,7 @@ Your application will display a complete stacktrace before it crashes :
  * [Usage] (#usage)
  * [How does it work?] (#how-does-it-work)
  * [Samples] (#samples) 
+ * [Valadoc](http://i-hate-farms.github.io/stacktrace/vala-stacktrace/index.htm)
  * [Changelog] (#changelog)
 
 ## Usage

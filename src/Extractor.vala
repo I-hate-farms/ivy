@@ -17,7 +17,7 @@
 namespace Meadows.Stacktrace {
 
     /**
-     * Extract the frame information
+     * Extracts frames and builds a {@link Stacktrace}
      *
      */
     public class Extractor {
@@ -305,7 +305,7 @@ namespace Meadows.Stacktrace {
         }
 
     /**
-     * Populate the stacktrace.
+     * Populates the stacktrace with frames
      * 
      * The frames are extracted from ``Linux.Backtrace`` and enriched 
      * via calls to unix tools ``nm`` and ``addr2line``.

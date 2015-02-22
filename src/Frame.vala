@@ -17,26 +17,28 @@
 namespace Meadows.Stacktrace {
 
     /** 
-     * A part of a stacktrace.
+     * A part of a stacktrace
      * 
      * This class represent on instance of a frame, ie a particular location 
      * in a binary (application or library) on the system called by the application
      *
      * ''Note:'' frames from system libraries without code information available are 
-     * not displayed by default. See {@link Meadows.Stacktrace.Stacktrace.hide_installed_libraries} for how to
+     * not displayed by default. See {@link Stacktrace.hide_installed_libraries} for how to
      * display them.   
      **/
     public class Frame {
         
         /**
-         * Address of the stack in hexadecimal.
+         * Address of the stack in hexadecimal
          * 
-         * Ex: ``0x00EDE``
+         * Ex: ``0x309``
          **/
         public string address  { get;private set;default = "";}
         
         /**
-         * Line of code. Can point to C code, Vala code or be blank if 
+         * Line of code of the frame 
+         * 
+         * Can point to C code, Vala code or be blank if 
          * no symbol is available (or if -rdynamic has not been set during the
          * compilation of the binary) 
          *
@@ -45,14 +47,16 @@ namespace Meadows.Stacktrace {
         public string line { get;private set;default = "";}
 
         /**
-         * Line number in the code file. May be blank if no code information is available 
+         * Line number in the code file. 
+         * 
+         * May be blank if no code information is available 
          *
          * Ex: ``25``
          **/
         public string line_number { get;private set;default = "";}
 
         /**
-         * Full path to the code file as it was stored on the building machine.
+         * Full path to the code file as it was stored on the building machine
          * 
          * Returns the path to the installed binary if no code information is available 
          *
@@ -63,7 +67,8 @@ namespace Meadows.Stacktrace {
         public string file_path { get;private set;default = "";}
         
         /**
-         * Path the code file relative to the current path. 
+         * Path the code file relative to the current path
+         * 
          * Returns the path to the installed binary if no code information is available  
          * 
          * Ex: ``/stuff/to/stuff/``
@@ -71,10 +76,10 @@ namespace Meadows.Stacktrace {
         public string file_short_path { get;private set;default = "";}
 
         /**
-         * C Function name. 
+         * C function name 
          * 
          * Because only the C function name is avaialable, 
-         * the name mixes the class and method name.
+         * the name mixes the vala class and vala method name (by default separated by ``_``).
          * 
          * For more information about getting full vala names see [[https://bugzilla.gnome.org/show_bug.cgi?id=738784|vala bug #738784]]
          * 
@@ -90,13 +95,6 @@ namespace Meadows.Stacktrace {
             this._file_short_path = file_short_path;
             this._function = function;
             this.line_number = line_number ;
-        }
-
-        public string to_string () {
-            var result = line;
-            if (result == "")
-                result = " C library at address [" + address + "]";
-            return result + " [" + address + "]";
         }
 
     }
