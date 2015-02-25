@@ -69,7 +69,8 @@ This library is [Apache licensed](http://www.apache.org/licenses/LICENSE-2.0) an
 ## Samples
 [Samples](/samples) are provided for a wide variety of use cases: 
   - [SIGABRT][1] : failed critical assert
-  - 
+  - [SIGSEV][2] : using a null reference
+  - [SIGTRAP][3] : uncaught error
 
 
 To compile and run all the samples, execute 
