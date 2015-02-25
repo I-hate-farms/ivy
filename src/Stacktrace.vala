@@ -134,9 +134,116 @@ namespace Meadows.Stacktrace {
          * Hides frames located in external system libraries (like ``libgc``) without 
          * code information 
          *
-         * * Default is ``false`` 
+         * * Default is ``true`` 
+         * 
+         * Before 
+         * {{{
+         *    An error occured (SIGTRAP) in ../src/Database/Core/QueryResult.vala, line 26 in 'app_center_core_query_result_finalize'
+         *   The reason is likely an uncaught error.
+         *
+         *    #1  <unknown>                                          in 'g_signal_handlers_disconnect_matched'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         * *  #2  ../src/Database/Core/QueryResult.vala    line  26 in 'app_center_core_query_result_finalize'               
+         *        at /home/cran/Documents/Projects/i-hate-farms/app/exocron/src/Database/Core/QueryResult.vala:26
+         *    #3  <unknown>                                          in 'g_object_unref'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #4  ../src/Database/Core/Dao.vala            line  88 in 'app_center_core_dao_insert'
+         *        at /home/cran/Documents/Projects/i-hate-farms/app/exocron/src/Database/Core/Dao.vala:88
+         *    #5  ../src/Database/PackageKitSource.vala    line  18 in 'app_center_core_package_kit_source_fetch'
+         *        at /home/cran/Documents/Projects/i-hate-farms/app/exocron/src/Database/PackageKitSource.vala:18
+         *    #6  ../src/MainPanel.vala                    line  68 in '__lambda19_'
+         *        at /home/cran/Documents/Projects/i-hate-farms/app/exocron/src/MainPanel.vala:68
+         *    #7  src/MainPanel.c                          line 297 in '___lambda19__app_center_views_browse_view_show_app_info'
+         *        at /home/cran/Documents/Projects/i-hate-farms/app/exocron/build/src/MainPanel.c:297
+         *    #8  <unknown>                                          in 'g_cclosure_marshal_VOID__STRINGv'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #9  <unknown>                                          in 'g_signal_emit_valist'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #10  <unknown>                                          in 'g_signal_emit_by_name'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #11  src/BrowseView.c                         line 871 in '__lambda16_'
+         *        at /home/cran/Documents/Projects/i-hate-farms/app/exocron/build/src/BrowseView.c:871
+         *    #12  src/BrowseView.c                         line 878 in '___lambda16__gtk_button_clicked'
+         *        at /home/cran/Documents/Projects/i-hate-farms/app/exocron/build/src/BrowseView.c:878
+         *    #13  <unknown>                                          in 'g_signal_emit_valist'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #14  <unknown>                                          in 'g_signal_emit'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #15  <unknown>                                          in 'g_closure_invoke'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #16  <unknown>                                          in 'g_signal_emit_valist'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #17  <unknown>                                          in 'g_signal_emit'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #18  <unknown>                                          in 'ffi_call_unix64'
+         *        at /usr/lib/x86_64-linux-gnu/libffi.so.6
+         *    #19  <unknown>                                          in 'ffi_call'
+         *        at /usr/lib/x86_64-linux-gnu/libffi.so.6
+         *    #20  <unknown>                                          in 'g_cclosure_marshal_generic_va'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #21  <unknown>                                          in 'g_signal_emit_valist'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #22  <unknown>                                          in 'g_signal_emit'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #23  <unknown>                                          in 'g_cclosure_marshal_VOID__BOXEDv'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #24  <unknown>                                          in 'g_signal_emit_valist'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #25  <unknown>                                          in 'g_signal_emit'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #26  <unknown>                                          in 'gtk_event_controller_handle_event'
+         *        at /usr/lib/x86_64-linux-gnu/libgtk-3.so.0
+         *    #27  <unknown>                                          in 'g_signal_emit_valist'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #28  <unknown>                                          in 'g_signal_emit'
+         *        at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *    #29  <unknown>                                          in 'gtk_main_do_event'
+         *        at /usr/lib/x86_64-linux-gnu/libgtk-3.so.0
+         *    #30  <unknown>                                          in 'g_main_context_dispatch'
+         *        at /lib/x86_64-linux-gnu/libglib-2.0.so.0
+         *    #31  <unknown>                                          in 'g_main_context_iteration'
+         *        at /lib/x86_64-linux-gnu/libglib-2.0.so.0
+         *    #32  <unknown>                                          in 'g_application_run'
+         *        at /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0
+         *    #33  <unknown>                                          in 'granite_application_run'
+         *        at /usr/lib/x86_64-linux-gnu/libgranite.so.2
+         *    #34  ../src/Application.vala                  line  54 in 'app_center_main'
+         *        at /home/cran/Documents/Projects/i-hate-farms/app/exocron/src/Application.vala:54
+         *    #35  src/Application.c                        line 296 in 'main'
+         *        at /home/cran/Documents/Projects/i-hate-farms/app/exocron/build/src/Application.c:296
+         *    #36  <unknown>                                          in '__libc_start_main'
+         *        at /lib/x86_64-linux-gnu/libc.so.6
+         *
+         * }}}
+         *
+         * After : 
+         * {{{         
+         * An error occured (SIGTRAP) in ../src/Database/Core/QueryResult.vala, line 26 in 'app_center_core_query_result_finalize'
+         *    The reason is likely an uncaught error.
+         * 
+         *     #1  <unknown>                                         in 'g_signal_handlers_disconnect_matched'
+         *         at /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+         *  *  #2  ../src/Database/Core/QueryResult.vala    line  26 in 'app_center_core_query_result_finalize'               
+         *         at /home/cran/Documents/Projects/i-hate-farms/app/exocron/src/Database/Core/QueryResult.vala:26
+         *     #3  ../src/Database/Core/Dao.vala            line  88 in 'app_center_core_dao_insert'
+         *         at /home/cran/Documents/Projects/i-hate-farms/app/exocron/src/Database/Core/Dao.vala:88
+         *     #4  ../src/Database/PackageKitSource.vala    line  18 in 'app_center_core_package_kit_source_fetch'
+         *         at /home/cran/Documents/Projects/i-hate-farms/app/exocron/src/Database/PackageKitSource.vala:18
+         *     #5  ../src/MainPanel.vala                    line  68 in '__lambda19_'
+         *         at /home/cran/Documents/Projects/i-hate-farms/app/exocron/src/MainPanel.vala:68
+         *     #6  src/MainPanel.c                          line 297 in '___lambda19__app_center_views_browse_view_show_app_info'
+         *         at /home/cran/Documents/Projects/i-hate-farms/app/exocron/build/src/MainPanel.c:297
+         *     #7  src/BrowseView.c                         line 871 in '__lambda16_'
+         *         at /home/cran/Documents/Projects/i-hate-farms/app/exocron/build/src/BrowseView.c:871
+         *     #8  src/BrowseView.c                         line 878 in '___lambda16__gtk_button_clicked'
+         *         at /home/cran/Documents/Projects/i-hate-farms/app/exocron/build/src/BrowseView.c:878
+         *     #9  ../src/Application.vala                  line  55 in 'app_center_main'
+         *         at /home/cran/Documents/Projects/i-hate-farms/app/exocron/src/Application.vala:55
+         *     #10  src/Application.c                       line 304 in 'main'
+         *         at /home/cran/Documents/Projects/i-hate-farms/app/exocron/build/src/Application.c:304
+         * }}}        
          */        
-        public static bool hide_installed_libraries { get;set;default = false;}
+        public static bool hide_installed_libraries { get;set;default = true;}
 
         /**
          * Sets the default higlighted text color for stacktrace that are created 
@@ -251,6 +358,7 @@ namespace Meadows.Stacktrace {
          *
          */
         public static void register_handlers () {
+            stdout.printf ("Registering Stacktrace %s\n", Build.VERSION) ;
             Log.set_always_fatal (LogLevelFlags.LEVEL_CRITICAL);
 
             Process.@signal (ProcessSignal.SEGV, handler);
