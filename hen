@@ -156,12 +156,13 @@ do_prepare () {
 
 do_init () {
       if [ -f "project.hen" ] ; then
-        echo -e "${red}You already have a project.hen file${NC}"
+        echo -e "${red}You already have a project.hen file.${NC}"
+        echo -e "A new one can't be generated as it would ${white}override the existing one.${NC}"
         exit -1
       fi
       cp ${DEST_FOLDER}/project.hen.template project.hen
-      echo -e "Your project file ${white}project.hen${NC} has been created"
-      echo -e "After you have edited it to your needs, run ${white}./hen build${NC} to build your project"
+      echo -e "Your project file ${white}project.hen${NC} has been created."
+      echo -e "After you have edited it to your needs, run ${white}./hen build${NC} to build your new project."
 }
 
 do_build () {
