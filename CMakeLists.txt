@@ -2,19 +2,25 @@ cmake_minimum_required (VERSION 2.8)
 list (APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/.hen)
 include (Hen)
 
-# Start of the project 
+# Start of the project
 
 set (VALA_VERSION_MIN "0.26")
 set (BUILD_TYPE "Release")
 #set (DEBIAN_PACKAGE "lib-vala-stracktrace-dev")
 
 library (
+    AUTHOR
+        "Carl P. <name.is.carl@gmail.com>"
+    HOMEPAGE
+        "https://github.com/I-hate-farms/stacktrace"      
+    LICENSE
+        "Apache 2.0"  
     BINARY_NAME
-        vala-stacktrace
+        ivy
     TITLE
-        "Vala stacktrace display"
+        "This library displays neat vala stacktraces"
     VERSION
-        "0.9.1"
+        "0.9.4"
     LINKING
         shared
     SOURCE_PATH

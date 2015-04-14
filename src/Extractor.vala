@@ -30,6 +30,7 @@ namespace Meadows.Stacktrace {
         private string l = "";
         private string file_line = "";
         private string func_line = "";
+        private string lib_address ="" ;
 
         private static Gee.ArrayList<string> libraries_with_no_info = new Gee.ArrayList<string>() ;
 
@@ -130,9 +131,12 @@ namespace Meadows.Stacktrace {
         }
 
         private void process_info_from_lib (string file_path, string str) {
+            //stdout.printf( "process_info_from_lib('%s', '%s') func: '%s'\n", file_path, str, func);
             var has_info = true ;
             var addr1_s = "" ;
+            var lib_addr = "" ;
             var cmd2 = "" ;
+            lib_address ="" ;
             lock( libraries_with_no_info)
              {
                 if( libraries_with_no_info.index_of (file_path) == -1 ){
@@ -142,6 +146,7 @@ namespace Meadows.Stacktrace {
                      addr1_s = execute_command_sync_get_output (cmd2) ;
                      if( addr1_s == null || addr1_s == "" )
                      {
+                        // stdout.printf( "ADDED TO NO INFO: '%s'\n", file_path);
                         libraries_with_no_info.add (file_path) ;
                         has_info = false ;
 
@@ -150,40 +155,44 @@ namespace Meadows.Stacktrace {
                 else
                     has_info = false ;
             }
-            if( has_info)
+            if( has_info && func != "" )
             {
                 MatchInfo info ;
+                var expression = "\\n[^ ]* T "+func ;
                 try {
-                    Regex regex = new Regex ("\\n[^ ]* T "+func);
+
+                    Regex regex = new Regex (expression);
                     int count = 0 ;
                     string matches = "" ;
                     if( regex.match (addr1_s, 0, out info) )
                      {
                         while( info.matches() ){
                             var lll = info.fetch(0) ;
-                            //stdout.printf ( "lll '%s'\n", lll ) ;
-                            addr1_s = lll.substring(0, lll.index_of(" ")) ;
-                            matches += addr1_s + "\n" ;
+                            // stdout.printf ( "lll '%s'\n", lll ) ;
+                            lib_addr = lll.substring(0, lll.index_of(" ")) ;
+                            matches += lib_addr + "\n" ;
                             info.next();
                             count++ ;
                         }
                         if( count >1 )
                         {
-                           stdout.printf ("  !! %d matches for '%s'. Command: %s. Matches: %s", count, func, matches, cmd2);
+                           stdout.printf ("  XX %d matches for '%s'. Command: '%s'. Matches: '%s'\n", count, func, cmd2, matches);
                         }
-
+                         // stdout.printf ("  YY %d matches for '%s'. Command: '%s'. Matches: '%s'\n", count, func, cmd2, matches);
                     }
 
                 } catch (RegexError e)
                 {
-                    critical( "Error while processing regex %s", e.message ) ;
+                    critical( "Error while processing regex '%s. Err: '%s", expression, e.message ) ;
                 }
                 //stdout.printf ("addr1_s %s\n", addr1_s) ;
                 int addr1 = 0 ;
-                addr1_s.scanf("%x",  &addr1);
+                lib_addr.scanf("%x",  &addr1);
                 if( addr1 != 0 ) {
                     int addr2 = extract_base_address (str) ;
                     string addr3 = "%#08x".printf (addr1+addr2);
+                    lib_address = addr3 ;
+                    // stdout.printf ("lib_address : %s\n", lib_address) ;
                     var new_full_line = process_line (file_path, addr3);
                     //stdout.printf ("STR : %s\n", str) ;
                     // stdout.printf ("AD1 : %s\n", addr1_s) ;
@@ -194,6 +203,8 @@ namespace Meadows.Stacktrace {
 
                     process_info_for_file (new_full_line, str ) ;
                 }
+                else
+                    stdout.printf ("NULL\n") ;
             }
 
         }
@@ -306,14 +317,14 @@ namespace Meadows.Stacktrace {
 
     /**
      * Populates the stacktrace with frames
-     * 
-     * The frames are extracted from ``Linux.Backtrace`` and enriched 
+     *
+     * The frames are extracted from ``Linux.Backtrace`` and enriched
      * via calls to unix tools ``nm`` and ``addr2line``.
-     * 
-     * ''Warning:'' because this methods calls synchronously other applications (nm and addr2line), it 
+     *
+     * ''Warning:'' because this methods calls synchronously other applications (nm and addr2line), it
      * can have a significant impact on performance.
-     * 
-     * @param trace the stacktrace 
+     *
+     * @param trace the stacktrace
      */
         public void create_stacktrace (Stacktrace trace) {
             int frame_count = 100;
@@ -348,21 +359,26 @@ namespace Meadows.Stacktrace {
                 int address = addresses[i];
                 string str = strings[i];
                 var addr = extract_address (str);
-
+                lib_address ="" ;
+                //stdout.printf ("9 '%s'. Addr: '%s' \n", func, addr) ;
                 var full_line = process_line (module, addr);
+                //stdout.printf ("10 '%s'\n", func) ;
                 process_info_for_file( full_line, str) ;
+                //stdout.printf ("11 '%s'\n", func);
                 if (file_line == "") {
                     file_path = extract_file_path_from (str);
 
                 }
+                //stdout.printf ("12 '%s'\n", func) ;
                 // The file name may ends with .so or .so.0 ...
                 if( ".so" in file_path ) {
                     process_info_from_lib (file_path, str) ;
                 }
+                //stdout.printf ("14 '%s'\n", func) ;
                 if( show_debug_frames )
                 {
-                    stdout.printf ("\nFrame %d \n--------\n  . addr: [%s]\n  . full_line: '%s'\n  . file_line: '%s'\n  . func_line: '%s'\n  . str : '%s'\n  . func: '%s'\n  . file: '%s'\n  . line: '%s'\n  . extr: '%#08x'\n",
-                    i, addr, full_line, file_line, func_line, str, func, file_path, l, address);
+                    stdout.printf ("\nFrame %d \n--------\n  . addr: [%s]\n  . full_line: '%s'\n  . file_line: '%s'\n  . func_line: '%s'\n  . str : '%s'\n  . func: '%s'\n  . file: '%s'\n  . line: '%s'\n  . address: '%#08x'\n  . lib_address: '%s'\n",
+                    i, addr, full_line, file_line, func_line, str, func, file_path, l, address, lib_address);
                 }
                 if (func != "" && file_path.has_suffix (".vala") && trace.is_all_function_name_blank)
                     trace.is_all_function_name_blank = false;

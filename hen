@@ -12,6 +12,7 @@
 #  - 0.10: add valadoc and deb-build
 #  - 0.11: add force-update
 #  - 0.12: update delete build folder
+#  - 0.13: add run and debug targets
 # TODO: install-dgb, deb-prepare, build+run, run
 # FIXME file with () in the name makes the build fail
 
@@ -36,6 +37,7 @@ NC='\033[0m' # No Color
 if [ -n "$1" ]; then
     OPERATION=$1
 fi
+PARAM=$2
 
 do_setup () {
       # If hen hasn't been installed
@@ -162,15 +164,43 @@ do_install () {
 }
 
 
-do_deb_build () {
+do_package () {
       if [ ! -d ${BUILD_FOLDER} ] ; then
         do_build
       fi
       echo ""
-      echo -e "${white}Building deb file...${NC}"
+      echo -e "${white}Building deb packages...${NC}"
       echo "----------"
       cd ${BUILD_FOLDER}
-      sudo make package
+      # By default we build for debian
+      if [ -n "$PARAM" ]; then
+          PARAM=debian
+      fi
+      make package_${PARAM}
+      cd ..
+}
+
+do_run () {
+      if [ ! -d ${BUILD_FOLDER} ] ; then
+        do_build
+      fi
+      echo ""
+      echo -e "${white}Running your application...${NC}"
+      echo "----------"
+      cd ${BUILD_FOLDER}
+      make run
+      cd ..
+}
+
+do_debug () {
+      if [ ! -d ${BUILD_FOLDER} ] ; then
+        do_build
+      fi
+      echo ""
+      echo -e "${white}Debugging with gdb...${NC}"
+      echo "----------"
+      cd ${BUILD_FOLDER}
+      make debug
       cd ..
 }
 
@@ -182,7 +212,7 @@ do_valadoc () {
       echo -e "${white}Building valadoc...${NC}"
       echo "----------"
       cd ${BUILD_FOLDER}
-      sudo make valadoc
+      make valadoc
       cd ..
 }
 
@@ -256,10 +286,14 @@ case "$OPERATION" in
    ;;
    "rel")do_internal_release
    ;;
-   "deb-build")do_deb_build
+   "package")do_package
    ;;
    "valadoc")do_valadoc
-   ;;   
+   ;;     
+   "run")do_run
+   ;;       
+   "debug")do_debug
+   ;;     
    "help")do_help
    ;;
    "--help")do_help
