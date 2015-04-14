@@ -6,7 +6,7 @@ Just have `Stacktrace` register the handlers  :
 ```java
 int main (string[] args) {
     // register the handler
-    Stacktrace.register_handlers () ;
+    Ivy.register_handlers () ;
 	  
     stdout.printf("  This program will crash !\n" ) ;
     // The next call will crash because it uses a null reference
@@ -22,14 +22,14 @@ valac -g -X -rdynamic --pkg linux --pkg gee-0.8  -o sample <your vala files>
 
 Your application will display a complete stacktrace before it crashes :
 
-![](https://raw.githubusercontent.com/PerfectCarl/vala-stacktrace/master/doc/stack_sigsegv.png)
+![](https://raw.githubusercontent.com/PerfectCarl/ivy/master/doc/stack_sigsegv.png)
 
 ## Documentation 
 
  * [Usage] (#usage)
  * [How does it work?] (#how-does-it-work)
  * [Samples] (#samples) 
- * [Valadoc](http://i-hate-farms.github.io/stacktrace/vala-stacktrace/index.htm)
+ * [Valadoc](http://i-hate-farms.github.io/ivy/ivy/index.htm)
  * [Changelog] (#changelog)
 
 ## Usage

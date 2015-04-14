@@ -17,7 +17,7 @@
  /** 
   * Provides services to display vala stacktraces
   */
-namespace Meadows.Stacktrace {
+namespace Ivy {
 
     internal enum Style {
         RESET = 0,

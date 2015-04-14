@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-namespace Meadows.Stacktrace {
+namespace Ivy {
 
     /**
      * Prints the stacktrace to ``stdout`` in colors

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-namespace Meadows.Stacktrace {
+namespace Ivy {
 
     /** 
      * A part of a stacktrace

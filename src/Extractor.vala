@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-namespace Meadows.Stacktrace {
+namespace Ivy {
 
     /**
      * Extracts frames and builds a {@link Stacktrace}
