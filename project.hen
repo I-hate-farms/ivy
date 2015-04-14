@@ -1,13 +1,7 @@
-cmake_minimum_required (VERSION 2.8)
-list (APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/.hen)
-include (Hen)
-
-# Start of the project
-
-# DONE? set (VALA_VERSION_MIN "0.26")
+set (VALA_VERSION_MIN "0.26")
 set (BUILD_TYPE "Release")
 #set (DEBIAN_PACKAGE "lib-vala-stracktrace-dev")
-ffffffffffffffffffffffffffffffffffffff
+
 library (
     AUTHOR
         "Carl P. <name.is.carl@gmail.com>"

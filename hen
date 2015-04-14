@@ -13,8 +13,10 @@
 #  - 0.11: add force-update
 #  - 0.12: update delete build folder
 #  - 0.13: add run and debug targets
-# TODO: install-dgb, deb-prepare, build+run, run
+#  - 0.14: introduce project.hen file
+#  - 0.15: add init
 # FIXME file with () in the name makes the build fail
+# TODO better documentation in help and list
 
 OPERATION="build"
 
@@ -121,16 +123,45 @@ do_prepare () {
       if [ ! -f "${DEST_FOLDER}/Hen-VERSION.txt" ] ; then
         do_update
       fi
+      if [ ! -f "project.hen" ] ; then
+        echo -e "${red}You need to have a project file named project.hen${NC}"
+        echo -e "Use ${white}./hen init${NC} to initialize your project"
+        exit -1
+      fi
       echo ""
       echo -e "${white}Preparing your build ...${NC}"
       echo "----------"
       if [ -d ${BUILD_FOLDER} ] ; then
         rm -rf ${BUILD_FOLDER}
       fi
+      # Renaming and expanding project.hen to CMakeLists.txt
+      if [ -f "CMakeLists.txt" ] ; then
+        # Remove old backup of present
+        if [ -f "CMakeLists.txt.backup-hen" ] ; then
+          rm CMakeLists.txt.backup-hen
+        fi        
+        mv CMakeLists.txt CMakeLists.txt.backup-hen
+      fi
+      cp ${DEST_FOLDER}/CMakeLists.template CMakeLists.txt
+      cat project.hen >> CMakeLists.txt
+
       mkdir ${BUILD_FOLDER}
       cd ${BUILD_FOLDER}
       cmake ..
       cd ..
+      if [ -f "CMakeLists.txt.backup-hen" ] ; then
+        mv CMakeLists.txt.backup-hen CMakeLists.txt
+      fi
+}
+
+do_init () {
+      if [ -f "project.hen" ] ; then
+        echo -e "${red}You already have a project.hen file${NC}"
+        exit -1
+      fi
+      cp ${DEST_FOLDER}/project.hen.template project.hen
+      echo -e "Your project file ${white}project.hen${NC} has been created"
+      echo -e "After you have edited it to your needs, run ${white}./hen build${NC} to build your project"
 }
 
 do_build () {
@@ -291,7 +322,9 @@ case "$OPERATION" in
    "valadoc")do_valadoc
    ;;     
    "run")do_run
-   ;;       
+   ;;      
+   "init")do_init
+   ;;      
    "debug")do_debug
    ;;     
    "help")do_help
