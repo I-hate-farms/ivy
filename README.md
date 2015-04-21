@@ -22,7 +22,7 @@ valac -g -X -rdynamic --pkg linux --pkg gee-0.8  -o sample <your vala files>
 
 Your application will display a complete stacktrace before it crashes :
 
-![](https://raw.githubusercontent.com/PerfectCarl/ivy/master/doc/stack_sigsegv.png)
+![](https://raw.githubusercontent.com/I-hate-farms/ivy/master/doc/stack_sigsegv.png)
 
 ## Documentation 
 
