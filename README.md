@@ -89,6 +89,7 @@ It processes the stacktrace symbols provided by [Linux.Backtrace.symbols](http:/
 This library is [Apache licensed](http://www.apache.org/licenses/LICENSE-2.0) and has the following vala dependencies: 
   - linux
   - gee-0.8
+  - posix
 
 ## Samples
 [Samples](/samples) are provided for a wide variety of use cases: 
@@ -103,5 +104,9 @@ To compile and run all the samples, execute
 ./run_samples.sh
 ```
 
+## How to build 
+```
+./hen build 
+```
 ## [Changelog](CHANGELOG.md)
 
