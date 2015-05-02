@@ -1,7 +1,7 @@
 
-This library displays the stacktrace when your vala application crashes (should it ever happen).
+This library displays your **vala stacktraces** (on crashes, critical warnings and on invocation).
 
-Just have `Stacktrace` register the handlers  : 
+Just have `Ivy` register the handlers  : 
 
 ```java
 int main (string[] args) {
@@ -15,15 +15,23 @@ int main (string[] args) {
 }
 ```
 
-... and build your application with `-X -rdynamic` and required dependencies
+... and build your application with `-X -rdynamic` 
 ```
-valac -g -X -rdynamic --pkg linux --pkg gee-0.8  -o sample <your vala files>
+valac -g -X -rdynamic --pkg ivy --pkg <dependencies...> -o sample <your vala files>
 ```
 
 Your application will display a complete stacktrace before it crashes :
 
-![](https://raw.githubusercontent.com/PerfectCarl/ivy/master/doc/stack_sigsegv.png)
+![](https://raw.githubusercontent.com/I-hate-farms/ivy/master/doc/stack_sigsegv.png)
 
+## Installation 
+
+```
+# Install the spores repository if needed
+curl -sL  http://i-hate-farms.github.io/spores/install | sudo bash -  
+# Install the package
+sudo apt-get install libivy-dev
+```
 ## Documentation 
 
  * [Usage] (#usage)
