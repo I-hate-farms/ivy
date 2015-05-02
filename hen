@@ -15,6 +15,7 @@
 #  - 0.13: add run and debug targets
 #  - 0.14: introduce project.hen file
 #  - 0.15: add init
+#  - 0.16: added devscripts to the list of init packages
 # FIXME file with () in the name makes the build fail
 # TODO better documentation in help and list
 
@@ -31,6 +32,7 @@ PACKAGE_FILE=${TEMP_FOLDER}/${PACKAGE_NAME}
 VERSION_FILE=${TEMP_FOLDER}/Hen-VERSION.txt
 
 BUILD_FOLDER=./build
+# MAKE_OPTIONS=VERBOSE=1
 
 red='\033[0;31m'
 white='\033[1;37m'
@@ -47,14 +49,17 @@ do_setup () {
         echo ""
         echo -e "${white}Installing Hen dependencies...${NC}"
         echo "----------"
-        echo -e "It maky take a while but it will be ${white}done only once${NC}..."
+        echo -e "It may take a while but it will be ${white}done only once${NC}..."
         echo ""
-        sudo apt-get install -y cmake valac build-essential valadoc
+        sudo add-apt-repository -y ppa:vala-team
+        # sudo apt-get update > /dev/null
+        curl -sL  http://i-hate-farms.github.io/spores/install | sudo bash -  > /dev/null
+        sudo apt-get install -y cmake valac valac-0.26 build-essential valadoc devscripts
         RETURN_CODE=$?
         if [ "${RETURN_CODE}" == "0" ] ; then
           echo -e "${white}Installation done successfully.${NC}"
-          if [ ! -d ${TEMP_FOLDER} ] ; then
-            mkdir ~/.cache/hen/}
+          if [ ! -d ~/.cache/hen/ ] ; then
+            mkdir ~/.cache/hen/
           fi
           touch ~/.cache/hen/setup_done
         fi
@@ -134,7 +139,17 @@ do_prepare () {
       if [ -d ${BUILD_FOLDER} ] ; then
         rm -rf ${BUILD_FOLDER}
       fi
-      # Renaming and expanding project.hen to CMakeLists.txt
+      generate_cmakefile
+      
+      mkdir ${BUILD_FOLDER}
+      cd ${BUILD_FOLDER}
+      cmake ..
+      cd ..
+      restore_cmakefile
+}
+
+generate_cmakefile () {
+        # Renaming and expanding project.hen to CMakeLists.txt
       if [ -f "CMakeLists.txt" ] ; then
         # Remove old backup of present
         if [ -f "CMakeLists.txt.backup-hen" ] ; then
@@ -144,17 +159,24 @@ do_prepare () {
       fi
       cp ${DEST_FOLDER}/CMakeLists.template CMakeLists.txt
       cat project.hen >> CMakeLists.txt
+      cat ${DEST_FOLDER}/CMakeLists.ending.template >> CMakeLists.txt
+      # Setting up date not to fool cmake
+      touch -d "$(date -r project.hen --rfc-2822)" CMakeLists.txt 
+}
 
-      mkdir ${BUILD_FOLDER}
-      cd ${BUILD_FOLDER}
-      cmake ..
-      cd ..
+restore_cmakefile () {
+      rm CMakeLists.txt
       if [ -f "CMakeLists.txt.backup-hen" ] ; then
         mv CMakeLists.txt.backup-hen CMakeLists.txt
       fi
 }
 
 do_init () {
+      # if the Hen version can't be found, it means that the
+      # Hen needs to be installed
+      if [ ! -f "${DEST_FOLDER}/Hen-VERSION.txt" ] ; then
+        do_update
+      fi
       if [ -f "project.hen" ] ; then
         echo -e "${red}You already have a project.hen file.${NC}"
         echo -e "A new one can't be generated as it would ${white}override the existing one.${NC}"
@@ -172,8 +194,10 @@ do_build () {
       echo ""
       echo -e "${white}Building your application ...${NC}"
       echo "----------"
+      generate_cmakefile
       cd ${BUILD_FOLDER}
-      make
+      
+      make ${MAKE_OPTIONS}
       RETURN_CODE=$?
       if [ "$RETURN_CODE" == "0" ] ; then
         BUILD_SUCCESSFUL=TRUE
@@ -181,6 +205,7 @@ do_build () {
         BUILD_SUCCESSFUL=FALSE
       fi
       cd ..
+      restore_cmakefile
 }
 
 do_install () {
@@ -190,9 +215,15 @@ do_install () {
       echo ""
       echo -e "${white}Installing your application ...${NC}"
       echo "----------"
+      generate_cmakefile
       cd ${BUILD_FOLDER}
-      sudo make install
+      if [ ! -z "$PARAM" ]; then
+          sudo make install_${PARAM} ${MAKE_OPTIONS}
+      else
+        sudo make install ${MAKE_OPTIONS}
+      fi
       cd ..
+      restore_cmakefile
 }
 
 
@@ -203,13 +234,20 @@ do_package () {
       echo ""
       echo -e "${white}Building deb packages...${NC}"
       echo "----------"
+      generate_cmakefile
       cd ${BUILD_FOLDER}
       # By default we build for debian
-      if [ -n "$PARAM" ]; then
-          PARAM=debian
+      if [ ! -z "$PARAM" ]; then
+        SYSTEM=debian
+        if [ ! -z "$2" ]; then
+            SYSTEM=$2
+        fi 
+        sudo make package_${SYSTEM}_${PARAM} ${MAKE_OPTIONS}
+      else
+        sudo make package_debian ${MAKE_OPTIONS}
       fi
-      make package_${PARAM}
       cd ..
+      restore_cmakefile
 }
 
 do_run () {
@@ -219,9 +257,15 @@ do_run () {
       echo ""
       echo -e "${white}Running your application...${NC}"
       echo "----------"
+      generate_cmakefile
       cd ${BUILD_FOLDER}
-      make run
+      if [ ! -z "$PARAM" ]; then
+          make run_${PARAM} ${MAKE_OPTIONS}
+      else
+        make run ${MAKE_OPTIONS}
+      fi
       cd ..
+      restore_cmakefile
 }
 
 do_debug () {
@@ -231,9 +275,15 @@ do_debug () {
       echo ""
       echo -e "${white}Debugging with gdb...${NC}"
       echo "----------"
+      generate_cmakefile
       cd ${BUILD_FOLDER}
-      make debug
+      if [ ! -z "$PARAM" ]; then
+          make debug_${PARAM} ${MAKE_OPTIONS}
+      else
+        make debug ${MAKE_OPTIONS}
+      fi
       cd ..
+      restore_cmakefile
 }
 
 do_valadoc () {
@@ -244,8 +294,9 @@ do_valadoc () {
       echo -e "${white}Building valadoc...${NC}"
       echo "----------"
       cd ${BUILD_FOLDER}
-      make valadoc
+      make valadoc ${MAKE_OPTIONS}
       cd ..
+      restore_cmakefile
 }
 
 do_rebuild () {
@@ -280,6 +331,8 @@ do_internal_release () {
   zip -q -r ../dist/hen-latest.zip .
   cd ..
   cp ${DEST_FOLDER}/Hen-VERSION.txt ./dist/
+  cp ${DEST_FOLDER}/Hen-CHANGELOG.md ./CHANGELOG.md
+
   echo -e "${white}Release ready${NC}."
 }
 

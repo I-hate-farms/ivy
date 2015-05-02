@@ -1,6 +1,8 @@
  - fix 'in' alignement
- 
-0.9.1: 
+0.9.5:
+  - pushed to spores
+
+0.9.1:
   - add the possibility to print an arbitrary stacktrace
   - add CriticalHandler enumeration
   - fix the ??:00 bug
@@ -10,7 +12,7 @@
   - add sample
   - add documentation
   - refactor the code
-  - add valadoc 
+  - add valadoc
 
 0.9:
   - add warning when the -g -X compilation flags were missing

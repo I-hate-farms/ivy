@@ -6,15 +6,15 @@ library (
     AUTHOR
         "Carl P. <name.is.carl@gmail.com>"
     HOMEPAGE
-        "https://github.com/I-hate-farms/ivy"      
+        "https://github.com/I-hate-farms/ivy"
     LICENSE
-        "Apache 2.0"  
-    BINARY_NAME
+        "Apache 2.0"
+    NAME
         ivy
     TITLE
         "This library displays neat vala stacktraces"
     VERSION
-        "0.9.4"
+        "0.9.5"
     LINKING
         shared
     SOURCE_PATH
