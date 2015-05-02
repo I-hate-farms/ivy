@@ -1,3 +1,4 @@
+## Introduction 
 
 This library displays your **vala stacktraces** (on crashes, critical warnings and on invocation).
 
@@ -15,12 +16,27 @@ int main (string[] args) {
 }
 ```
 
-... and build your application with `-X -rdynamic` 
+#### Command line 
+Invoke `valac`  with `-X -rdynamic` and add the `ivy` package:  
 ```
 valac -g -X -rdynamic --pkg ivy --pkg <dependencies...> -o sample <your vala files>
 ```
 
-Your application will display a complete stacktrace before it crashes :
+#### cmake
+Update your `CMakeLists.txt` file and add `-rdynamic` and `ivy` as a regular vala package : 
+```
+ADD_DEFINITIONS(-rdynamic)
+...
+pkg_check_modules (DEPS REQUIRED <your packages> ivy)
+...
+vala_precompile (
+   ...
+  PACKAGES
+    ...
+    ivy
+)
+```
+Your application will display a complete stacktrace before a crash :
 
 ![](https://raw.githubusercontent.com/I-hate-farms/ivy/master/doc/stack_sigsegv.png)
 
