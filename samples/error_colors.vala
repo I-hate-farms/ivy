@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- using Meadows.Stacktrace  ;
+ using Meadows.Stacktrace ;
 
 private void this_will_crash () {
     var hi = "johnny !";

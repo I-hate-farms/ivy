@@ -94,7 +94,7 @@ namespace Ivy {
             this._file_path = file_path;
             this._file_short_path = file_short_path;
             this._function = function;
-            this.line_number = line_number ;
+            this.line_number = line_number;
         }
 
     }

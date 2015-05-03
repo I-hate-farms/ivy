@@ -285,8 +285,8 @@ namespace Ivy {
             }
         }
 
-        private Printer printer = new Printer () ;
-        private Extractor extractor = new Extractor () ;
+        private Printer printer = new Printer ();
+        private Extractor extractor = new Extractor ();
 
         public Stacktrace (GLib.ProcessSignal sig = GLib.ProcessSignal.TTOU) {
             this.sig = sig;
@@ -315,8 +315,8 @@ namespace Ivy {
          * {{{
          *   
          *   int my_function (string arg) {
-         *      var custom_stracktrace = new Stacktrace () ;
-         *      custom_stracktrace.print () ;
+         *      var custom_stracktrace = new Stacktrace ();
+         *      custom_stracktrace.print ();
          *      return 0;
          *   }
          * }}}
@@ -332,7 +332,7 @@ namespace Ivy {
          * 
          */
         public void print () {
-           printer.print (this) ;
+           printer.print (this);
         }
 
         /**
@@ -358,7 +358,7 @@ namespace Ivy {
          *
          */
         public static void register_handlers () {
-            stdout.printf ("Registering Stacktrace %s\n", Build.VERSION) ;
+            stdout.printf ("Registering Stacktrace %s\n", Build.VERSION);
             Log.set_always_fatal (LogLevelFlags.LEVEL_CRITICAL);
 
             Process.@signal (ProcessSignal.SEGV, handler);
@@ -376,7 +376,7 @@ namespace Ivy {
 
         /*{
             set {
-                _critical_handling = value ;
+                _critical_handling = value;
                 if( value == CriticalHandler.CRASH )
                 //var variables = Environ.get ();
                 //Environ.set_variable (variables, "G_DEBUG", "fatal-criticals" );
@@ -389,7 +389,7 @@ namespace Ivy {
 
         private static void handler (int sig) {
             if( !enabled)
-                return ;
+                return;
             Stacktrace stack = new Stacktrace ((ProcessSignal) sig);
             stack.print ();
             if (sig != ProcessSignal.TRAP ||

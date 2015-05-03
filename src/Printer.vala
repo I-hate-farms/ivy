@@ -25,7 +25,7 @@ namespace Ivy {
         private Color background_color = Color.BLACK;
         private int title_length = 0;
 
-        private Stacktrace stacktrace ;
+        private Stacktrace stacktrace;
 
        private string get_reset_code () {
             // return get_color_code (Style.RESET, Colors.WHITE, Colors.BLACK);
@@ -73,7 +73,7 @@ namespace Ivy {
 
         private string get_printable_line_number (Frame frame, bool pad = true) {
             var path = frame.line_number;
-            var max_line_number_length = stacktrace.max_line_number_length ;
+            var max_line_number_length = stacktrace.max_line_number_length;
             var result = "";
             var color = get_highlight_code ();
             if (path.length >= max_line_number_length || !pad)
@@ -87,7 +87,7 @@ namespace Ivy {
 
         private string get_printable_file_short_path (Frame frame, bool pad = true) {
             var path = frame.file_short_path;
-            var max_file_name_length = stacktrace.max_file_name_length ;
+            var max_file_name_length = stacktrace.max_file_name_length;
             var result = "";
             var color = get_highlight_code ();
             if (path.length >= max_file_name_length || !pad)
@@ -103,7 +103,7 @@ namespace Ivy {
             var c = get_color_code (Style.DIM, stacktrace.highlight_color, background_color);
             var color = get_highlight_code ();
 
-            var result = "" ;
+            var result = "";
 
             if( stacktrace.is_custom)
                 result = "%sA function was called in %s".printf (
@@ -122,7 +122,7 @@ namespace Ivy {
 
         private string get_reason () {
             // var c = get_reset_code();
-            var sig = stacktrace.sig ;
+            var sig = stacktrace.sig;
 
             var color = get_highlight_code ();
             if (sig == ProcessSignal.TRAP) {
@@ -147,11 +147,11 @@ namespace Ivy {
          * 
          */
         public virtual void print (Stacktrace trace) {
-            this.stacktrace = trace ;
+            this.stacktrace = trace;
             background_color = stacktrace.error_background;
             var header = "%s%s\n".printf (get_printable_title (),
                                           get_reset_code ());
-            var first_vala = trace.first_vala ;
+            var first_vala = trace.first_vala;
 
             if (trace.first_vala != null) {
                 header = "%s in %s, line %s in %s\n".printf (
@@ -169,7 +169,7 @@ namespace Ivy {
                 var reason = get_reason ();
                 stdout.printf ("   %s.\n", reason);
             }
-            var is_all_file_name_blank = stacktrace.is_all_file_name_blank ;
+            var is_all_file_name_blank = stacktrace.is_all_file_name_blank;
 
             // Has the user forgot to compile with -g -X -rdynamic flag ?
             if (is_all_file_name_blank) {

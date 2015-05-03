@@ -22,17 +22,17 @@ namespace Ivy {
      */
     public class Extractor {
 
-        private bool show_debug_frames = false ;
+        private bool show_debug_frames = false;
 
-        private string func = "" ;
+        private string func = "";
         private string file_path = "";
         private string short_file_path = "";
         private string l = "";
         private string file_line = "";
         private string func_line = "";
-        private string lib_address ="" ;
+        private string lib_address ="";
 
-        private static Gee.ArrayList<string> libraries_with_no_info = new Gee.ArrayList<string>() ;
+        private static Gee.ArrayList<string> libraries_with_no_info = new Gee.ArrayList<string>();
 
         private string get_module_name () {
             var path = new char[1024];
@@ -87,27 +87,27 @@ namespace Ivy {
         // input : '/home/cran/Documents/Projects/elementary/noise/instant-beta/build/core/libnoise-core.so.0(noise_job_repository_create_job+0x309) [0x7ff60a021e69]'
         // ouput: 0x309
         private int extract_base_address (string line) {
-            int result = 0 ;
+            int result = 0;
             var start = line.last_index_of ("+");
             if (start >= 0) {
                 var end = line.last_index_of (")");
                 if( end > start ) {
-                    var text = line.substring (start+3,end-start-3) ;
+                    var text = line.substring (start+3,end-start-3);
                     text.scanf("%x",  &result);
                 }
             }
-            return result ;
+            return result;
         }
 
         private void process_info_for_file (string full_line, string str ) {
-            func = "" ;
+            func = "";
             file_path = "";
             short_file_path = "";
             l = "";
             file_line = "";
             func_line = "";
             if (full_line == "")
-                return ;
+                return;
 
             var lines = full_line.split ("\n");
 
@@ -134,47 +134,47 @@ namespace Ivy {
 
         private void process_info_from_lib (string file_path, string str) {
             //stdout.printf( "process_info_from_lib('%s', '%s') func: '%s'\n", file_path, str, func);
-            var has_info = true ;
-            var addr1_s = "" ;
-            var lib_addr = "" ;
-            var cmd2 = "" ;
-            lib_address ="" ;
+            var has_info = true;
+            var addr1_s = "";
+            var lib_addr = "";
+            var cmd2 = "";
+            lib_address ="";
             lock( libraries_with_no_info)
              {
                 if( libraries_with_no_info.index_of (file_path) == -1 ){
                      // The library is not on the black list
-                    cmd2 = "nm %s".printf(file_path) ;
+                    cmd2 = "nm %s".printf(file_path);
 
-                     addr1_s = execute_command_sync_get_output (cmd2) ;
+                     addr1_s = execute_command_sync_get_output (cmd2);
                      if( addr1_s == null || addr1_s == "" )
                      {
                         // stdout.printf( "ADDED TO NO INFO: '%s'\n", file_path);
-                        libraries_with_no_info.add (file_path) ;
-                        has_info = false ;
+                        libraries_with_no_info.add (file_path);
+                        has_info = false;
 
                      }
                 }
                 else
-                    has_info = false ;
+                    has_info = false;
             }
             if( has_info && func != "" )
             {
-                MatchInfo info ;
-                var expression = "\\n[^ ]* T "+func ;
+                MatchInfo info;
+                var expression = "\\n[^ ]* T "+func;
                 try {
 
                     Regex regex = new Regex (expression);
-                    int count = 0 ;
-                    string matches = "" ;
+                    int count = 0;
+                    string matches = "";
                     if( regex.match (addr1_s, 0, out info) )
                      {
                         while( info.matches() ){
-                            var lll = info.fetch(0) ;
-                            // stdout.printf ( "lll '%s'\n", lll ) ;
-                            lib_addr = lll.substring(0, lll.index_of(" ")) ;
-                            matches += lib_addr + "\n" ;
+                            var lll = info.fetch(0);
+                            // stdout.printf ( "lll '%s'\n", lll );
+                            lib_addr = lll.substring(0, lll.index_of(" "));
+                            matches += lib_addr + "\n";
                             info.next();
-                            count++ ;
+                            count++;
                         }
                         if( count >1 )
                         {
@@ -185,28 +185,28 @@ namespace Ivy {
 
                 } catch (RegexError e)
                 {
-                    critical( "Error while processing regex '%s. Err: '%s", expression, e.message ) ;
+                    critical( "Error while processing regex '%s. Err: '%s", expression, e.message );
                 }
-                //stdout.printf ("addr1_s %s\n", addr1_s) ;
-                int addr1 = 0 ;
+                //stdout.printf ("addr1_s %s\n", addr1_s);
+                int addr1 = 0;
                 lib_addr.scanf("%x",  &addr1);
                 if( addr1 != 0 ) {
-                    int addr2 = extract_base_address (str) ;
+                    int addr2 = extract_base_address (str);
                     string addr3 = "%#08x".printf (addr1+addr2);
-                    lib_address = addr3 ;
-                    // stdout.printf ("lib_address : %s\n", lib_address) ;
+                    lib_address = addr3;
+                    // stdout.printf ("lib_address : %s\n", lib_address);
                     var new_full_line = process_line (file_path, addr3);
-                    //stdout.printf ("STR : %s\n", str) ;
-                    // stdout.printf ("AD1 : %s\n", addr1_s) ;
-                    //stdout.printf ("AD2 : %#08x\n", addr2) ;
-                    //stdout.printf ("AD3 : %s\n", addr3) ;
-                    //stdout.printf ("LIB : %s\n", file_path) ;
-                    //stdout.printf ("RES : %s\n", new_full_line) ;
+                    //stdout.printf ("STR : %s\n", str);
+                    // stdout.printf ("AD1 : %s\n", addr1_s);
+                    //stdout.printf ("AD2 : %#08x\n", addr2);
+                    //stdout.printf ("AD3 : %s\n", addr3);
+                    //stdout.printf ("LIB : %s\n", file_path);
+                    //stdout.printf ("RES : %s\n", new_full_line);
 
-                    process_info_for_file (new_full_line, str ) ;
+                    process_info_for_file (new_full_line, str );
                 }
                 else
-                    stdout.printf ("NULL\n") ;
+                    stdout.printf ("NULL\n");
             }
 
         }
@@ -251,7 +251,7 @@ namespace Ivy {
             // For some reason, the file name can starts with ??:0
             if (result.has_prefix ("??:0"))
                 result = result.substring (4, line.length - 4);
-            // stdout.printf ("ERR1?? : %s\n", line ) ;
+            // stdout.printf ("ERR1?? : %s\n", line );
             var start = result.index_of (":");
             if (start >= 0) {
                 result = result.substring (0, start);
@@ -307,7 +307,7 @@ namespace Ivy {
             catch (Error e) {
                 print ("Error while executing '%s': %s\n".printf(cmd,e.message));
             }
-            return "" ;
+            return "";
         }
 
         // Poor's man demangler. libunwind is another dep
@@ -318,7 +318,7 @@ namespace Ivy {
         private string process_line (string module, string address) {
             var cmd = "addr2line -f -e %s %s".printf (module, address);
             var result = execute_command_sync_get_output (cmd);
-            //stdout.printf( "CMD %s\n", cmd) ;
+            //stdout.printf( "CMD %s\n", cmd);
             return result;
         }
 
@@ -366,10 +366,10 @@ namespace Ivy {
                 int address = addresses[i];
                 string str = strings[i];
                 var addr = extract_address (str);
-                lib_address ="" ;
-                //stdout.printf ("9 '%s'. Addr: '%s' \n", func, addr) ;
+                lib_address ="";
+                //stdout.printf ("9 '%s'. Addr: '%s' \n", func, addr);
                 var full_line = process_line (module, addr);
-                //stdout.printf ("10 '%s'\n", func) ;
+                //stdout.printf ("10 '%s'\n", func);
                 if( full_line == "" ) {
                     // Happens when the process memory is going up and up
                     // Likely a memory leak
@@ -379,21 +379,21 @@ namespace Ivy {
                     // Error while executing 'addr2line -f -e /home/cran/Documents/Projects/i-
                     // hate-farms/ide/echo/build/test 0x2afe3b5beb32': Failed to fork (Cannot allocate memory)
 
-                    print ("Something went very wrong. Your stacktrace cannot be displayed\n") ;
-                    break ;
+                    print ("Something went very wrong. Your stacktrace cannot be displayed\n");
+                    break;
                 }
-                process_info_for_file( full_line, str) ;
+                process_info_for_file( full_line, str);
                 //stdout.printf ("11 '%s'\n", func);
                 if (file_line == "") {
                     file_path = extract_file_path_from (str);
 
                 }
-                //stdout.printf ("12 '%s'\n", func) ;
+                //stdout.printf ("12 '%s'\n", func);
                 // The file name may ends with .so or .so.0 ...
                 if( ".so" in file_path ) {
-                    process_info_from_lib (file_path, str) ;
+                    process_info_from_lib (file_path, str);
                 }
-                //stdout.printf ("14 '%s'\n", func) ;
+                //stdout.printf ("14 '%s'\n", func);
                 if( show_debug_frames )
                 {
                     stdout.printf ("\nFrame %d \n--------\n  . addr: [%s]\n  . full_line: '%s'\n  . file_line: '%s'\n  . func_line: '%s'\n  . str : '%s'\n  . func: '%s'\n  . file: '%s'\n  . line: '%s'\n  . address: '%#08x'\n  . lib_address: '%s'\n",
@@ -405,7 +405,7 @@ namespace Ivy {
                 if (short_file_path != "" && trace.is_all_file_name_blank)
                     trace.is_all_file_name_blank = false;
 
-                var line_number = extract_line (file_line) ;
+                var line_number = extract_line (file_line);
                 var frame = new Frame (addr, file_line, func, file_path, short_file_path, line_number);
 
                 if (trace.first_vala == null && file_path.has_suffix (".vala"))
