@@ -106,6 +106,8 @@ namespace Ivy {
             l = "";
             file_line = "";
             func_line = "";
+            if (full_line == "")
+                return ;
 
             var lines = full_line.split ("\n");
 
@@ -296,11 +298,16 @@ namespace Ivy {
                 string std_out;
                 string std_err;
                 Process.spawn_command_line_sync (cmd, out std_out, out std_err, out exitCode);
-                return std_out;
+                if( exitCode == 0)
+                    return std_out;
+                else
+                    print ("Error while executing '%s'. Exit code '%d'\n".printf(cmd, exitCode));
+
             }
             catch (Error e) {
-                error ("Error while executing '%s': %s".printf(cmd,e.message));
+                print ("Error while executing '%s': %s\n".printf(cmd,e.message));
             }
+            return "" ;
         }
 
         // Poor's man demangler. libunwind is another dep
@@ -363,6 +370,18 @@ namespace Ivy {
                 //stdout.printf ("9 '%s'. Addr: '%s' \n", func, addr) ;
                 var full_line = process_line (module, addr);
                 //stdout.printf ("10 '%s'\n", func) ;
+                if( full_line == "" ) {
+                    // Happens when the process memory is going up and up
+                    // Likely a memory leak
+                    // Like in the test suite for echo
+                    // ** (/home/cran/Documents/Projects/i-hate-farms/ide/echo/build/test:2859):
+                    // CRITICAL **: vala_data_type_copy: assertion 'self != NULL' failed
+                    // Error while executing 'addr2line -f -e /home/cran/Documents/Projects/i-
+                    // hate-farms/ide/echo/build/test 0x2afe3b5beb32': Failed to fork (Cannot allocate memory)
+
+                    print ("Something went very wrong. Your stacktrace cannot be displayed\n") ;
+                    break ;
+                }
                 process_info_for_file( full_line, str) ;
                 //stdout.printf ("11 '%s'\n", func);
                 if (file_line == "") {

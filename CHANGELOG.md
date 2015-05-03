@@ -1,5 +1,8 @@
  - fix 'in' alignement
 
+0.9.6:
+  - make it more resilient in case addr2line fails to be invoked
+
 0.9.5:
   - pushed to spores
 

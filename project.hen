@@ -14,7 +14,7 @@ library (
     TITLE
         "This library displays neat vala stacktraces"
     VERSION
-        "0.9.5"
+        "0.9.6"
     LINKING
         shared
     SOURCE_PATH
