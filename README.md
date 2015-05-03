@@ -1,3 +1,4 @@
+## Introduction 
 
 This library displays your **vala stacktraces** (on crashes, critical warnings and on invocation).
 
@@ -15,12 +16,27 @@ int main (string[] args) {
 }
 ```
 
-... and build your application with `-X -rdynamic` 
+#### Command line 
+Invoke `valac`  with `-X -rdynamic` and add the `ivy` package:  
 ```
 valac -g -X -rdynamic --pkg ivy --pkg <dependencies...> -o sample <your vala files>
 ```
 
-Your application will display a complete stacktrace before it crashes :
+#### cmake
+Update your `CMakeLists.txt` file and add `-rdynamic` and `ivy` as a regular vala package : 
+```
+ADD_DEFINITIONS(-rdynamic)
+...
+pkg_check_modules (DEPS REQUIRED <your packages> ivy)
+...
+vala_precompile (
+   ...
+  PACKAGES
+    ...
+    ivy
+)
+```
+Your application will display a complete stacktrace before a crash :
 
 ![](https://raw.githubusercontent.com/I-hate-farms/ivy/master/doc/stack_sigsegv.png)
 
@@ -73,6 +89,7 @@ It processes the stacktrace symbols provided by [Linux.Backtrace.symbols](http:/
 This library is [Apache licensed](http://www.apache.org/licenses/LICENSE-2.0) and has the following vala dependencies: 
   - linux
   - gee-0.8
+  - posix
 
 ## Samples
 [Samples](/samples) are provided for a wide variety of use cases: 
@@ -87,5 +104,9 @@ To compile and run all the samples, execute
 ./run_samples.sh
 ```
 
+## How to build 
+```
+./hen build 
+```
 ## [Changelog](CHANGELOG.md)
 
